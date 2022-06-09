@@ -10,5 +10,3 @@ def update_shopping_cart(id):
     """
     Updates the shopping cart
     """
-
-    form =

@@ -21,4 +21,4 @@ class Product_Order(db.Model):
             'order_id': self.order_id
         }
 
-product_order.product
+# product_order.product

@@ -12,12 +12,12 @@ class Review(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 
-def to_dict(self):
-    return{
-        'id': self.id,
-        'title': self.title,
-        'content': self.content,
-        'rating': self.rating,
-        'user_id': self.user_id,
-        'product_id': self.product_id
-    }
+    def to_dict(self):
+        return{
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'rating': self.rating,
+            'user_id': self.user_id,
+            'product_id': self.product_id
+        }

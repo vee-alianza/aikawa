@@ -12,8 +12,9 @@ class Order(db.Model):
     # implicit associations
     # => user
 
-    ordered_items = db.relationship(
-        'Product_Order', backref='order', cascade='all, delete')
+    user = db.relationship('User', back_populates='orders')
+
+
 
     def to_dict(self):
         return{

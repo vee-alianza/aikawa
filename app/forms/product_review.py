@@ -1,7 +1,9 @@
-from tokenize import String
+# from tokenize import String
 from flask_wtf import Flaskform
+from sqlalchemy import Integer
 from wtforms import StringField, TextAreaField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Length
+from app.models import Review
 
 class ProductReview(Flaskform):
     title = StringField('title', validators=[DataRequired()])

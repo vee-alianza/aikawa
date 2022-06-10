@@ -42,8 +42,8 @@ export const getOrder = (order) => async dispatch => {
     return (response);
 };
 
-const orderReducer = (state = initialState, action) => {
+// const orderReducer = (state = initialState, action) => {
 
-}
+// }
 
 export default orderReducer;

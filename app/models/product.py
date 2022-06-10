@@ -12,6 +12,9 @@ class Product(db.Model):
 
     product_orders = db.relationship('Product_Order', backref='product', cascade='all, delete')
 
+    product = db.relationship('Review', back_populates='product_review')
+
+
     def to_dict(self):
         return{
             'id': self.id,

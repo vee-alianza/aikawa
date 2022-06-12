@@ -11,8 +11,9 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
-    user_review = db.relationship('User', back_populates='written_review')
-    product_review = db.relationship('Product', back_populates='product')
+    # implicit association
+    # => user
+    # => product
 
 
     def to_dict(self):

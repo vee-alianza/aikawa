@@ -5,10 +5,12 @@ class Cart_Item(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('prdoucts.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    # user_cart = db.relationship('User', back_populates='cart_orders')
+    # implicit associtation
+    # => user
+    # => product
 
     def to_dict(self):
         return{

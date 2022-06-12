@@ -11,8 +11,8 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
 
     product_orders = db.relationship('Product_Order', backref='product', cascade='all, delete')
-
     product = db.relationship('Review', back_populates='product_review')
+    # cart_product = db.relationship('Cart_Item', back_populates ='cart')
 
 
     def to_dict(self):

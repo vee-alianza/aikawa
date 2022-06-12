@@ -12,7 +12,7 @@ class Order(db.Model):
     # implicit associations
     # => user
 
-    user = db.relationship('User', back_populates='orders')
+    ordered_items = db.relationship('Product_Order', backref='order', cascade='all, delete')
 
 
 

@@ -19,8 +19,9 @@ class User(db.Model, UserMixin):
     # country = db.Column(db.String(150), nullable=False)
 
 
-    orders = db.relationship('Order', back_populates='user')
-    written_review = db.relationship('Review', back_populates='user_review')
+    orders = db.relationship('Order', backref='user', cascade='all, delete')
+    reviews = db.relationship('Review', backref='user', cascade='all, delete')
+    cart = db.relationship('Cart_Item', backref='user', cascade='all, delete')
 
     @property
     def password(self):

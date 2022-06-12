@@ -10,9 +10,9 @@ class Product(db.Model):
     image = db.Column(db.Text)
     quantity = db.Column(db.Integer, nullable=False)
 
-    product_orders = db.relationship('Product_Order', backref='product', cascade='all, delete')
-
-    product = db.relationship('Review', back_populates='product_review')
+    ordered_items = db.relationship('Product_Order', backref='product', cascade='all, delete')
+    reviews = db.relationship('Review', backref='product', cascade='all, delete')
+    cart_items = db.relationship('Cart_Item', backref='product', cascade='all, delete')
 
 
     def to_dict(self):

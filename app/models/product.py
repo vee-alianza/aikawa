@@ -7,12 +7,12 @@ class Product(db.Model):
     title = db.Column(db.String(255), nullable=False, unique=True)
     price = db.Column(db.Float(precision=2, asdecimal=False), nullable=False)
     description = db.Column(db.String(250), nullable=False)
-    image = db.Column(db.Text)
     quantity = db.Column(db.Integer, nullable=False)
 
     ordered_items = db.relationship('Product_Order', backref='product', cascade='all, delete')
     reviews = db.relationship('Review', backref='product', cascade='all, delete')
     cart_items = db.relationship('Cart_Item', backref='product', cascade='all, delete')
+    images = db.relationship('Product_Image', backref='product', cascade='all, delete')
 
 
     def to_dict(self):
@@ -21,6 +21,5 @@ class Product(db.Model):
             'title': self.title,
             'price': self.price,
             'description': self.description,
-            'image': self.image,
             'quantity': self.quantity
         }

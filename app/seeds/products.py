@@ -20,7 +20,6 @@ def seed_products():
             title = product['product'],
             price = 123.45,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
     for product in coffee_tables:
@@ -28,7 +27,6 @@ def seed_products():
             title = product['product'],
             price = 678.90,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
     for product in dining_seating:
@@ -36,7 +34,6 @@ def seed_products():
             title = product['product'],
             price = 123.45,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
     for product in lounge_seating:
@@ -44,7 +41,6 @@ def seed_products():
             title = product['product'],
             price = 123.45,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
     for product in ottoman_seating:
@@ -52,7 +48,6 @@ def seed_products():
             title = product['product'],
             price = 123.45,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
     for product in sculptural_chairs:
@@ -60,7 +55,6 @@ def seed_products():
             title = product['product'],
             price = 123.45,
             description = 'product description',
-            image = product['pictures'][0],
             quantity = 5,
         ))
 

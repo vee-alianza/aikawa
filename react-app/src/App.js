@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import SplashPage from './components/SplashPage';
 import Homepage from './components/Homepage';
+import ProductsPage from './components/ProductsPage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -21,6 +21,8 @@ function App() {
       setLoaded(true);
     })();
   }, [dispatch]);
+
+
 
   if (!loaded) {
     return null;
@@ -39,17 +41,19 @@ function App() {
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
-        <Route path='/home' exact={true}>
+        <ProtectedRoute path='/home' exact={true} loaded={loaded}>
           <Homepage />
-        </Route>
-        <ProtectedRoute path='/users' exact={true} >
+        </ProtectedRoute>
+        <ProtectedRoute path='/users' exact={true} loaded={loaded}>
           <UsersList />
         </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
+
+        <ProtectedRoute path='/users/:userId' exact={true} loaded={loaded}>
           <User />
         </ProtectedRoute>
-        <Route path='/products'>
 
+        <Route path='/products' exact={true} loaded={loaded}>
+          <ProductsPage />
         </Route>
       </Switch>
     </BrowserRouter>

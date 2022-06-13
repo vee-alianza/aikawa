@@ -32,7 +32,7 @@ const removeOrder = (id) => {
 };
 
 
-export const getOrder = (order) => async dispatch => {
+export const postOrder = (order) => async dispatch => {
     const response = await fetch(`/api/orders`, {
         method: 'POST',
         body: JSON.stringify(order)
@@ -70,7 +70,7 @@ const orderReducer = (state = initialState, action) => {
         case UPDATE_ORDER:
             newState = Object.assign({}, state);
             if (state.allOrders) {
-                newState.allOrders = state.allOrders.map((story) => {
+                newState.allOrders = state.allOrders.map((order) => {
                     if (order.id === action.payload.id) {
                         return action.payload;
                     } else {

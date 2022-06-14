@@ -16,11 +16,20 @@ class Product(db.Model):
 
 
     def to_dict(self):
-        return{
+        return {
             'id': self.id,
             'title': self.title,
             'price': self.price,
             'description': self.description,
             'quantity': self.quantity,
             'images': [image.to_dict() for image in self.images]
+        }
+
+    def to_cart_item(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'price': self.price,
+            'description': self.description,
+            'image': self.images[0].to_dict()['url']
         }

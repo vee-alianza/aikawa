@@ -6,7 +6,7 @@ class Cart_Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # implicit associtation
     # => user
@@ -15,7 +15,10 @@ class Cart_Item(db.Model):
     def to_dict(self):
         return{
             'id': self.id,
+            'productId': self.product.to_cart_item()['id'],
             'quantity': self.quantity,
-            'product_id': self.product_id,
-            'user_id': self.user_id
+            'title': self.product.to_cart_item()['title'],
+            'price': self.product.to_cart_item()['price'],
+            'description': self.product.to_cart_item()['description'],
+            'image': self.product.to_cart_item()['image']
         }

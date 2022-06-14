@@ -10,6 +10,8 @@ import { authenticate } from './store/session';
 import SplashPage from './components/SplashPage';
 import Homepage from './components/Homepage';
 import ProductsPage from './components/ProductsPage';
+import ProductView from './components/ProductView';
+import ShoppingCart from './components/ShoppingCart';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -54,6 +56,15 @@ function App() {
 
         <Route path='/products' exact={true} loaded={loaded}>
           <ProductsPage />
+        </Route>
+        <Route path='/products/:productId' exact={true}>
+          <ProductView />
+        </Route>
+        <Route path='/shoppingcart' exact={true}>
+          <ShoppingCart />
+        </Route>
+        <Route path='/ordersummary' exact={true}>
+          <h1>ORDER SUMMARY PAGE</h1>
         </Route>
       </Switch>
     </BrowserRouter>

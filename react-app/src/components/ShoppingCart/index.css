@@ -1,0 +1,19 @@
+.shopping-cart__container {
+    display: flex;
+}
+
+.item__container {
+    display: flex;
+}
+
+.item__container>img {
+    width: 10rem;
+}
+
+.item-price__div {
+    justify-self: flex-end;
+}
+
+.item-quantity__container {
+    display: flex;
+}

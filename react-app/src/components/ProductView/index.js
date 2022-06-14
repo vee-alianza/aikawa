@@ -1,55 +1,69 @@
-import { useEffect, useState } from 'react'
-import ProductList from '../ProductListItem';
-import './index.css'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getProductDetailsThunk } from '../../store/products';
+import AddToCart from '../ProductsPage/AddToCart';
+import './index.css';
 
-const ProductView = ({ products }) => {
-    const [sideOpen, setSideOpen] = useState(localStorage.getItem('sidePane') === 'true' || false);
-    const [selected, setSelected] = useState();
-
-    const setSidePanel = (flag) => {
-        setSideOpen(flag);
-        localStorage.setItem('sidePanel', flag);
-    }
-
-    const selectProduct = (e, item) => {
-        setSelected(item);
-    }
+const ProductView = () => {
+    const { productId } = useParams();
+    const dispatch = useDispatch();
+    const product = useSelector(state => state.products.currentProduct);
+    const [displayImg, setDisplayImg] = useState('');
+    const [prevImg, setPrevImg] = useState('');
+    const [previewImgClicked, setPreviewImgClicked] = useState(false);
 
     useEffect(() => {
-        // console.log(`selectedProduct${selected}`)
-        if (selected) setSidePanel(true);
-    }, [selected]);
-
-    useEffect(() => {
-        // console.log(`sideOpen ${sideOpen}`)
-        if (!sideOpen) setSelected();
-    }, [sideOpen]);
+        if (!product) {
+            dispatch(getProductDetailsThunk(productId));
+        } else {
+            setDisplayImg(product.images[0].url);
+        }
+    }, [dispatch, product, productId]);
 
     return (
-        <div className='product__view__container'>
-            <div className='side__panel__info'>
-                <h1>Products</h1>
-                <div className='product__list'>
-                    {products.map((item) => (
-                        <ProductList
-                            key={item.id}
-                            product={item}
-                            onClick={e => selectProduct(e, item)}
+        <div className='single-product-view__container'>
+            {product &&
+                <>
+                    <div className='single-product-details__container'>
+                        <img
+                            className='single-product__image'
+                            alt={product.title}
+                            src={displayImg}
                         />
-                    ))}
-                </div>
-            </div>
-            <div className='side__panel'>
-                <div className='side__panel__wrapper'>
-                    <div className=''
-                        onClick={(e) => setSidePanel(!sideOpen)}>
-                        {sideOpen ? '>' : '<'}
+                        <div className='selector__container'>
+                            {product.images.map((image) => (
+                                <div
+                                    className='image__selector'
+                                    key={image.id}
+                                    onClick={() => {
+                                        setDisplayImg(image.url);
+                                        setPreviewImgClicked(true);
+                                    }}
+                                    onMouseEnter={() => {
+                                        setPrevImg(displayImg);
+                                        setDisplayImg(image.url);
+                                    }}
+                                    onMouseLeave={() => {
+                                        if (!previewImgClicked) {
+                                            setPrevImg('');
+                                            setDisplayImg(prevImg);
+                                        } else {
+                                            setPreviewImgClicked(false);
+                                        }
+                                    }}
+                                />
+                            ))}
+                        </div>
+                        <div className='single-product__description'>
+                            {product.description}
+                        </div>
                     </div>
-                </div>
-                <ProductDetails visible={sideOpen} product={selected} />
-            </div>
+                    <AddToCart product={product} />
+                </>
+            }
         </div>
     );
-}
+};
 
 export default ProductView;

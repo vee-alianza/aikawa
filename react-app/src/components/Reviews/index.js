@@ -15,8 +15,8 @@ const ReviewForm = () => {
                     <div className='reviews__list'>
                         <div className='review__inner__container'>
                             <img src='https://user-images.githubusercontent.com/92604480/173640320-852d46c1-2251-4057-950e-ce4e22ba39e5.png' alt='profile' />
-                            <p>Username</p>
                         </div>
+                        <p>Username</p>
                         <div className='review__align__right'>
                         </div>
                         <div className='review__align__right'>

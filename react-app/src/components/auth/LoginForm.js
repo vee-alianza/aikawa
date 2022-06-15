@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
+import './auth.css'
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
@@ -34,6 +35,7 @@ const LoginForm = () => {
     <>
       <div className='login__container'>
         <h2>Login</h2>
+
         <form onSubmit={onLogin}>
           <div>
             {errors.map((error, ind) => (
@@ -60,6 +62,7 @@ const LoginForm = () => {
               onChange={updatePassword}
             />
             <button type='submit'
+              id='login__btn'
             >
               <span></span>
               <span></span>
@@ -69,7 +72,8 @@ const LoginForm = () => {
             </button>
           </div>
         </form>
-      </div>
+
+      </div >
     </>
   );
 };

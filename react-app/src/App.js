@@ -13,6 +13,7 @@ import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
 import ReviewForm from './components/Reviews';
+import OrderSummary from './components/OrderSummary';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -64,8 +65,8 @@ function App() {
         <Route path='/shoppingcart' exact={true}>
           <ShoppingCart />
         </Route>
-        <Route path='/ordersummary' exact={true}>
-          <h1>ORDER SUMMARY PAGE</h1>
+        <Route path='/ordersummary/:orderId' exact={true}>
+          <OrderSummary />
         </Route>
         <Route path={'/products/reviews/:reviewId'}>
           < ReviewForm />

@@ -85,18 +85,26 @@ export const removeCartProductThunk = (productId) => async (dispatch) => {
 };
 
 export const placeUserOrderThunk = (orderedItems) => async (dispatch) => {
-    const response = await fetch('/api/products/cart', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ orderedItems })
-    });
-    const data = await response.json();
-    if (data.success) {
-        dispatch(userOrderPlaced());
-    } else {
-        console.error('Error checking out cart...');
+    try {
+        const response = await fetch('/api/products/cart', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderedItems })
+        });
+        const data = await response.json();
+        if (data.success) {
+            dispatch(userOrderPlaced());
+            return { orderId: data.orderId, success: true };
+        } else {
+            console.error('Error checking out cart...');
+            return { success: false };
+        }
+    } catch (err) {
+        if (err instanceof SyntaxError) {
+            return { success: false, status: 405 }
+        }
     }
 };
 
@@ -110,6 +118,23 @@ export const addToCart = (productId) => async (dispatch) => {
     } else {
         console.error('Error adding product to cart...');
         return;
+    }
+};
+
+export const updateCartItemQty = (productId, quantity) => async (dispatch) => {
+    const response = await fetch(`/api/products/cart/${productId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity })
+    });
+    const data = await response.json();
+    if (data.success) {
+        return true;
+    } else {
+        console.error('Error updating quantity of item in cart...');
+        return false;
     }
 };
 

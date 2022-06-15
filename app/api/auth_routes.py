@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, Cart_Item
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -41,6 +41,19 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
+
+        # add cart items to user's cart if they were shopping
+        # while logged out
+        if 'user' in session and 'cart_items' in session['user']:
+            for item in session['user']['cart_items']:
+                db.session.add(Cart_Item(
+                    quantity = 1,
+                    product_id = item['product_id'],
+                    user_id = user.id
+                ))
+            db.session.commit()
+            session['user'] = {'cart_items': []}
+
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

@@ -24,6 +24,20 @@ def all_orders():
     pass
 
 
+@order_routes.route('/<int:order_id>')
+@login_required
+def get_order_details(order_id):
+    """
+    Get single order details
+    """
+    order = Order.query.get(order_id)
+    print()
+    print()
+    print(order)
+    print()
+    print()
+    return {'order': order.to_dict()}
+
 
 @order_routes.route('/<int:id>', methods=['PUT'])
 @login_required

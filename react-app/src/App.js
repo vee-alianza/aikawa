@@ -12,6 +12,7 @@ import Homepage from './components/Homepage';
 import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
+import ReviewForm from './components/Reviews';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -65,6 +66,9 @@ function App() {
         </Route>
         <Route path='/ordersummary' exact={true}>
           <h1>ORDER SUMMARY PAGE</h1>
+        </Route>
+        <Route path={'/products/reviews/:reviewId'}>
+          < ReviewForm />
         </Route>
       </Switch>
     </BrowserRouter>

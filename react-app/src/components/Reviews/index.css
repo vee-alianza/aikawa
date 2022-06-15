@@ -1,0 +1,24 @@
+.review__box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.review__inner__container img {
+    width: 4rem;
+    border-radius: 50%;
+    border: 1px solid blue;
+}
+
+/* .review__align__right {
+    display: flex;
+    flex-direction: column;
+} */
+
+.review__container {
+    border: 1px solid red;
+    overflow-y: scroll;
+    width: 450px;
+    height: 880px;
+    bottom: 0;
+}

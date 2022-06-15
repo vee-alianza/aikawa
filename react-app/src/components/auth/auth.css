@@ -1,12 +1,14 @@
 body {
     margin: 0;
-    padding: 0;
+    /* padding: 0; */
     font-family: sans-serif;
-    background-color: linear-gradient(#141e30, #243b55);
+    /* background: linear-gradient(#141e30, #243b55); */
+    background: linear-gradient(#00076f, #44008b);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #fff;
 }
 
 .login__container {
@@ -25,7 +27,11 @@ body {
     text-align: center;
 }
 
-.login__details input {
+.login__container .input__form {
+    position: relative;
+}
+
+.login__details .input__form>input {
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
@@ -37,7 +43,7 @@ body {
     background: transparent;
 }
 
-.login__details label {
+.login__details .input__form label {
     position: absolute;
     top: 0;
     left: 0;
@@ -46,17 +52,18 @@ body {
     color: #fff;
     pointer-events: none;
     transition: .5s;
+    cursor: pointer;
 }
 
-.login__container .login__details:focus+.input__form,
-.login__container .login__details:active+.input__form {
+.login__container .login__details input:focus~label,
+.login__container .login__details input:active~label {
     top: -20px;
     left: 0;
     color: #03e9f4;
     font-size: 12px;
 }
 
-.login__container form a {
+.login__container form #login__btn {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
@@ -67,26 +74,31 @@ body {
     overflow: hidden;
     transition: .5s;
     margin-top: 40px;
-    letter-spacing: 4px
+    letter-spacing: 4px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: normal;
 }
 
-.login__container a:hover {
+.login__container #login__btn:hover {
     background: #03e9f4;
     color: #fff;
     border-radius: 5px;
+    opacity: 1;
     box-shadow: 0 0 5px #03e9f4,
         0 0 25px #03e9f4,
         0 0 50px #03e9f4,
         0 0 100px #03e9f4;
 }
 
-.login__container a span {
+.login__container #login__btn span {
     position: absolute;
     display: block;
 }
 
 
-.login__container a span:nth-child(1) {
+.login__container #login__btn span:nth-child(1) {
     top: 0;
     left: -100%;
     width: 100%;
@@ -106,14 +118,15 @@ body {
     }
 }
 
-.login__container a span:nth-child(2) {
+.login__container #login__btn span:nth-child(2) {
     top: -100%;
     right: 0;
     width: 2px;
     height: 100%;
     background: linear-gradient(180deg, transparent, #03e9f4);
     animation: btn-anim2 1s linear infinite;
-    animation-delay: .25s
+    animation-delay: .25s;
+
 }
 
 @keyframes btn-anim2 {
@@ -127,14 +140,15 @@ body {
     }
 }
 
-.login__container a span:nth-child(3) {
+.login__container #login__btn span:nth-child(3) {
     bottom: 0;
     right: -100%;
     width: 100%;
     height: 2px;
     background: linear-gradient(270deg, transparent, #03e9f4);
     animation: btn-anim3 1s linear infinite;
-    animation-delay: .5s
+    animation-delay: .5s;
+
 }
 
 @keyframes btn-anim3 {
@@ -148,7 +162,7 @@ body {
     }
 }
 
-.login-box a span:nth-child(4) {
+.login-box #login__btn span:nth-child(4) {
     bottom: -100%;
     left: 0;
     width: 2px;

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, session
 from flask_login import login_required, current_user
 from app.models import db, Product, Cart_Item, Order, Product_Order
 
@@ -29,12 +29,25 @@ def get_product_details(product_id):
 
 
 @product_routes.route('/cart')
-@login_required
 def get_user_cart():
     """
     Gets a user's cart (an array of cart items)
     """
-    cart_items_query = [item.to_dict() for item in current_user.cart]
+    cart_items_query = []
+
+    try:
+        # if user is logged in, just get cart items
+        # from user's association
+        cart_items_query = [item.to_dict() for item in current_user.cart]
+    except AttributeError:
+        # display cart items from logged-out
+        # user's cart
+        if 'user' in session and 'cart_items' in session['user']:
+            cart_items_query = []
+            for cart_item in session['user']['cart_items']:
+                item = Product.query.get(cart_item['product_id'])
+                cart_items_query.append(item.to_cart_item())
+
     cart_item_dict = {}
     cart_items = []
 
@@ -87,35 +100,104 @@ def place_user_order():
             db.session.delete(item)
     db.session.commit()
 
+    return {'success': True, 'orderId': new_order.id}
+
+
+@product_routes.route('/cart/<int:product_id>', methods=['PATCH'])
+def update_cart_item_qty(product_id):
+    """
+    Updates item quantity in user's cart
+    """
+    items_list = []
+    new_quantity = int(request.json['quantity'])
+
+    try:
+        for item in current_user.cart:
+            if item.product_id == product_id:
+                items_list.append(item)
+        if len(items_list) > new_quantity:
+            for i in range(len(items_list) - new_quantity):
+                db.session.delete(items_list[i])
+        elif len(items_list) < new_quantity:
+            for i in range(new_quantity - len(items_list)):
+                db.session.add(Cart_Item(
+                    quantity = 1,
+                    product_id = product_id,
+                    user_id = current_user.id
+                ))
+        db.session.commit()
+    except AttributeError:
+        for item in session['user']['cart_items']:
+            if item['product_id'] == product_id:
+                items_list.append(item)
+        if len(items_list) > new_quantity:
+            new_list = []
+            for item in session['user']['cart_items']:
+                if item['product_id'] != product_id:
+                    new_list.append(item)
+            for i in range(new_quantity):
+                new_list.append(items_list[i])
+            session['user']['cart_items'] = new_list
+        elif len(items_list) < new_quantity:
+            for _ in range(new_quantity - len(items_list)):
+                session['user']['cart_items'].append({
+                    'quantity': 1,
+                    'product_id': product_id
+                })
+
     return {'success': True}
 
 
 @product_routes.route('/cart/<int:product_id>', methods=['DELETE'])
-@login_required
 def remove_item_from_cart(product_id):
     """
     Removes an item from a user's cart
     """
-    cart_items = Cart_Item.query.filter(
-            Cart_Item.product_id == product_id,
-            Cart_Item.user_id == current_user.id
-        ).all()
-    for item in cart_items:
-        db.session.delete(item)
-    db.session.commit()
+    try:
+        cart_items = Cart_Item.query.filter(
+                Cart_Item.product_id == product_id,
+                Cart_Item.user_id == current_user.id
+            ).all()
+        for item in cart_items:
+            db.session.delete(item)
+        db.session.commit()
+    except AttributeError:
+        updated_cart = []
+        for item in session['user']['cart_items']:
+            if item['product_id'] != product_id:
+                updated_cart.append(item)
+        session['user']['cart_items'] = updated_cart
     return {'success': True}
 
 
 @product_routes.route('/<int:product_id>', methods=['POST'])
-@login_required
 def add_to_cart(product_id):
     """
     Adds a product to a user's cart
     """
-    db.session.add(Cart_Item(
-        quantity = 1,
-        product_id = product_id,
-        user_id = current_user.id if current_user.id is not None else None
-    ))
-    db.session.commit()
+    try:
+        # if user is logged in, simply add a
+        # cart item with the associated user's id
+        db.session.add(Cart_Item(
+            quantity = 1,
+            product_id = product_id,
+            user_id = current_user.id
+        ))
+        db.session.commit()
+    except AttributeError:
+        # if a user is not logged in, create
+        # server-side session for logged-out user
+        if 'user' in session:
+            session['user']['cart_items'].append({
+                'quantity': 1,
+                'product_id': product_id
+            })
+        else:
+            session['user'] = {
+                'cart_items': [{
+                    'quantity': 1,
+                    'product_id': product_id
+                }]
+            }
+
     return {'success': True}

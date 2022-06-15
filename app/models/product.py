@@ -27,9 +27,10 @@ class Product(db.Model):
 
     def to_cart_item(self):
         return {
-            'id': self.id,
+            'productId': self.id,
             'title': self.title,
             'price': self.price,
             'description': self.description,
-            'image': self.images[0].to_dict()['url']
+            'image': self.images[0].to_dict()['url'],
+            'quantity': 1
         }

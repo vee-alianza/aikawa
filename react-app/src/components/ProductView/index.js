@@ -14,12 +14,14 @@ const ProductView = () => {
     const [previewImgClicked, setPreviewImgClicked] = useState(false);
 
     useEffect(() => {
-        if (!product) {
-            dispatch(getProductDetailsThunk(productId));
-        } else {
+        dispatch(getProductDetailsThunk(productId));
+    }, [dispatch, productId]);
+
+    useEffect(() => {
+        if (product) {
             setDisplayImg(product.images[0].url);
         }
-    }, [dispatch, product, productId]);
+    }, [product]);
 
     return (
         <div className='single-product-view__container'>

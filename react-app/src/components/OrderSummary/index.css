@@ -1,0 +1,8 @@
+.order-item__container {
+  width: 50rem;
+  border-bottom: 0.1rem solid gray;
+}
+
+.order-item__container > img {
+  width: 10rem;
+}

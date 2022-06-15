@@ -15,10 +15,10 @@ class Cart_Item(db.Model):
     def to_dict(self):
         return{
             'id': self.id,
-            'productId': self.product.to_cart_item()['id'],
+            'productId': self.product.to_dict()['id'],
             'quantity': self.quantity,
-            'title': self.product.to_cart_item()['title'],
-            'price': self.product.to_cart_item()['price'],
-            'description': self.product.to_cart_item()['description'],
-            'image': self.product.to_cart_item()['image']
+            'title': self.product.to_dict()['title'],
+            'price': self.product.to_dict()['price'],
+            'description': self.product.to_dict()['description'],
+            'image': self.product.to_dict()['images'][0]['url']
         }

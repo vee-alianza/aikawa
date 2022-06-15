@@ -23,5 +23,5 @@ class Order(db.Model):
             'total_cost': self.total_cost,
             'user_id': self.user_id,
             'user': self.user.to_dict(),
-            'ordered_items': self.ordered_items.to_dict()
+            'ordered_items': [item.to_dict() for item in self.ordered_items]
         }

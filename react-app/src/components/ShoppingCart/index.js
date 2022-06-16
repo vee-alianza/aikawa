@@ -5,18 +5,13 @@ import { QuantityPicker } from 'react-qty-picker';
 import {
   getUserCartThunk,
   removeCartProductThunk,
-  placeUserOrderThunk,
+  checkoutCart,
   updateCartItemQty
 } from '../../store/products';
 import './index.css';
 
-// variable for 'setTimeout' to tell backend
-// there's a change in quantity without
-// spamming calls with each update.
-// has a 1 sec delay to update backend.
-// this HAS to be a global variable, otherwise
-// 'clearTimeout' will NOT work.
-let delayedUpdate;
+
+let delayedUpdate = {};
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();
@@ -42,10 +37,11 @@ const ShoppingCart = () => {
       setCartItems(userCart);
       setCartTotal(totalPrice);
     }
+
+    return () => delayedUpdate = {};
   }, [dispatch, userCart]);
 
   const handleQtyChange = (value, productTitle, productId) => {
-
     setQuantity(prev => {
       const stateCopy = { ...prev };
       stateCopy[productTitle] = value;
@@ -77,8 +73,8 @@ const ShoppingCart = () => {
     }
 
     setCartTotal(totalPrice);
-    clearTimeout(delayedUpdate);
-    delayedUpdate = setTimeout(() => {
+    clearTimeout(delayedUpdate[productId]);
+    delayedUpdate[productId] = setTimeout(() => {
       dispatch(updateCartItemQty(productId, value));
     }, 1000);
   };
@@ -102,7 +98,7 @@ const ShoppingCart = () => {
       });
     }
 
-    const { success, orderId, status } = await dispatch(placeUserOrderThunk(orderedItems));
+    const { success, orderId, status } = await dispatch(checkoutCart(orderedItems));
 
     if (success) {
       history.push(`/ordersummary/${orderId}`);

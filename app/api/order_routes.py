@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session
-from app.models import db, Order
+from app.models import db, Order, Product_Order
 from flask_login import current_user, login_required, user_logged_in
 # from app.forms.order_form import OrderForm
 
@@ -31,18 +31,38 @@ def get_order_details(order_id):
     Get single order details
     """
     order = Order.query.get(order_id)
-    print()
-    print()
-    print(order)
-    print()
-    print()
     return {'order': order.to_dict()}
 
 
-@order_routes.route('/<int:id>', methods=['PUT'])
+@order_routes.route('/<int:order_item_id>', methods=['PATCH'])
 @login_required
-def update_shopping_cart(id):
+def update_order_item_qty(order_item_id):
     """
+    Updates the quantity for an order item
+    """
+    quantity = int(request.json['quantity'])
+    order_items = current_user.pending.ordered_items.all()
+    new_total = 0
+    for item in order_items:
+        if item.id == order_item_id:
+            item.quantity = quantity
+        new_total += item.quantity * item.to_dict()['basePrice']
+    current_user.pending.total_cost = new_total
+    db.session.commit()
+    return {'success': True}
+    
 
+@order_routes.route('/<int:order_item_id>', methods=['DELETE'])
+@login_required
+def remove_order_item(order_item_id):
     """
-    pass
+    Removes an order item
+    """
+    order_item = current_user.pending.ordered_items.filter(Product_Order.id == order_item_id).first()
+    db.session.delete(order_item)
+    db.session.commit()
+
+    if len(current_user.pending.ordered_items.all()) == 0:
+        db.session.delete(current_user.pending)
+        db.session.commit()
+    return {'success': True}

@@ -1,8 +1,12 @@
+import { updateUserRating } from "./session";
+
 const GET_PRODUCTS = 'products/GET_PRODUCTS';
 const GET_PRODUCT_DETAILS = 'products/GET_PRODUCT_DETAILS';
 const GET_USER_CART = 'products/GET_USER_CART';
 const REMOVE_CART_PRODUCT = 'products/REMOVE_CART_PRODUCT';
 const USER_ORDER_PLACED = 'products/USER_ORDER_PLACED';
+const ADD_REVIEW_RATING = 'products/ADD_REVIEW_RATING';
+
 
 const getProducts = (products) => {
     return {
@@ -37,6 +41,15 @@ const userOrderPlaced = () => {
         type: USER_ORDER_PLACED
     }
 };
+
+const addReviewRating = (rating) => {
+    return {
+        type: ADD_REVIEW_RATING,
+        payload: rating
+    };
+};
+
+
 
 export const getProductsThunk = (lastProductId) => async (dispatch) => {
     const response = await fetch(`/api/products/?lastProductId=${lastProductId}`);
@@ -162,6 +175,18 @@ export const updateCartItemQty = (productId, quantity) => async (dispatch) => {
     }
 };
 
+export const rateProduct = (productId, rating) => async dispatch => {
+    const response = await fetch(`/api/products/${productId}/rate/`, {
+        method: 'PUT',
+        body: JSON.stringify({ rating })
+    });
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(addReviewRating(data.rating));
+        dispatch(updateUserRating(rating));
+    }
+};
+
 const initialState = {
     allProducts: null,
     currentProduct: null,
@@ -195,6 +220,9 @@ const productReducer = (state = initialState, action) => {
             newState = { ...state };
             newState.userCart = null;
             return newState;
+        case ADD_REVIEW_RATING:
+            newState = Object.assign({}, state);
+            newState.currentProduct.rating = action.payload;
         default:
             return state;
     }

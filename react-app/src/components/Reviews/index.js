@@ -1,16 +1,97 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { getReviewsThunk, addNewReview, deleteReview } from "../../store/reviews"
+import ReactStars from "react-stars";
+import { fetchCurrentProductData } from "../../store/session"
+import { rateProduct } from "../../store/products";
 import './index.css';
 
 
+const ReviewForm = ({ product }) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const sessionUser = useSelector(state => state.session.user);
+    const reviews = useSelector(state => state.products.currentProduct?.Product);
+    const currentUserRating = useSelector(state => state.session.currentProductRating);
+    const [content, setContent] = useState("");
+    const [errors, setErrors] = useState([]);
+    const [userRating, setUserRating] = useState(0);
 
+    useEffect(() => {
+        if (!currentUserRating) {
+            dispatch(fetchCurrentProductData(product.id));
+        } else {
+            setUserRating(Number(currentUserRating));
+        }
+    }, [dispatch, currentUserRating, product.id]);
 
-const ReviewForm = () => {
+    const handleDelete = async (e, id) => {
+        e.preventDefault();
+        await dispatch(deleteReview(id))
+    };
+
+    const newerReview = async (e) => {
+        e.preventDefault();
+        const review = {
+            userId: sessionUser.id,
+            productId: product.id,
+            content
+        };
+
+        // let newestReview = await dispatch(postReview(review))
+        //     .catch(async (res) => {
+        //         const data = await res.json();
+        //         if (data && data.errors) {
+        //             setErrors(data.errors);
+        //         }
+        //     });
+
+        // setContent("");
+
+        // if (errors.length && newestReview) {
+        //     history.push(`/products/view/${product.id}`)
+        // };
+    };
+
+    const handleRating = (userRating) => {
+        dispatch(rateProduct(product.id, userRating));
+    };
+
+    // const handleLike = (reviewId) => {
+    //     if (currentUserReviewLikes && currentUserReviewLikes.includes(reviewId)) {
+
+    //         return (
+    //             <button
+    //                 onClick={() => dispatch(unlikeReview(reviewId))}
+    //             >
+    //                 Unlike
+    //             </button>
+    //         )
+    //     }
+
+    //     return (
+    //         <button
+    //             onClick={() => dispatch(likeReview(reviewId))}
+    //         >
+    //             Like
+    //         </button>
+    //     )
+    // };
+
     return (
         <>
             <div className='review__container'>
                 <h4>REVIEW BOX</h4>
                 <div className='review__box'>
                     <div className='star__ratings'>
-                        🚀 🚀 🚀 🚀 🚀
+                        {product.userId !== sessionUser.id && currentUserRating &&
+                            <ReactStars
+                                size={36}
+                                value={userRating}
+                                onChange={handleRating}
+                            />}
+
                     </div>
                     <div className='reviews__list'>
                         <div className='review__inner__container'>

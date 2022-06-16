@@ -1,6 +1,9 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const UPDATE_USER_RATING = 'session/updateUserRating';
+const GET_CURRENT_REVIEW_DATA = 'session/getCurrentReviewData';
+
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -11,7 +14,31 @@ const removeUser = () => ({
   type: REMOVE_USER,
 })
 
-const initialState = { user: null };
+const getCurrentReviewData = (data) => {
+  return {
+    type: GET_CURRENT_REVIEW_DATA,
+    payload: data
+  };
+};
+
+export const updateUserRating = (rating) => {
+  return {
+    type: UPDATE_USER_RATING,
+    payload: rating
+  };
+};
+
+export const fetchCurrentProductData = (reviewId) => async (dispatch) => {
+  const response = await fetch(`/api/session/review/${reviewId}`);
+  const data = await response.json();
+  dispatch(getCurrentReviewData(data));
+  return response;
+};
+
+const initialState = {
+  user: null,
+  currentProductRating: null,
+};
 
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
@@ -24,7 +51,7 @@ export const authenticate = () => async (dispatch) => {
     if (data.errors) {
       return;
     }
-  
+
     dispatch(setUser(data));
   }
 }
@@ -40,8 +67,8 @@ export const login = (email, password) => async (dispatch) => {
       password
     })
   });
-  
-  
+
+
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data))
@@ -82,7 +109,7 @@ export const signUp = (username, email, password) => async (dispatch) => {
       password,
     }),
   });
-  
+
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data))
@@ -96,6 +123,7 @@ export const signUp = (username, email, password) => async (dispatch) => {
     return ['An error occurred. Please try again.']
   }
 }
+
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {

@@ -15,7 +15,6 @@ import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
 import ReviewForm from './components/Reviews';
 import OrderSummary from './components/OrderSummary';
-
 // import LoadingPage from './components/LoadingPage';
 
 function App() {
@@ -56,7 +55,6 @@ function App() {
         </Route>
         <ProtectedRoute path='/home' exact={true} loaded={loaded}>
           <NavBar />
-          {/* <Homepage /> */}
         </ProtectedRoute>
         <ProtectedRoute path='/users' exact={true} loaded={loaded}>
           <UsersList />

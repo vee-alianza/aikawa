@@ -108,6 +108,30 @@ export const placeUserOrderThunk = (orderedItems) => async (dispatch) => {
     }
 };
 
+export const checkoutCart = (orderedItems) => async (dispatch) => {
+    try {
+        const response = await fetch('/api/products/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderedItems })
+        });
+        const data = await response.json();
+        if (data.success) {
+            dispatch(userOrderPlaced());
+            return { orderId: data.orderId, success: true };
+        } else {
+            console.error('Error checking out cart...');
+            return { success: false };
+        }
+    } catch (err) {
+        if (err instanceof SyntaxError) {
+            return { success: false, status: 405 }
+        }
+    }
+};
+
 export const addToCart = (productId) => async (dispatch) => {
     const response = await fetch(`/api/products/${productId}`, {
         method: 'POST'

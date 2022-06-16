@@ -103,6 +103,44 @@ def place_user_order():
     return {'success': True, 'orderId': new_order.id}
 
 
+@product_routes.route('/cart', methods=['POST'])
+@login_required
+def checkout_user_cart():
+    """
+    Creates order preview from user's submitted cart
+    """
+    cart_items = request.json['orderedItems']
+    order_total = 0
+
+    for item in cart_items:
+        product = Product.query.get(item['productId'])
+        order_total += product.price * float(item['quantity'])
+
+    new_order = Order(
+        status = 'Pending',
+        total_cost = order_total,
+        user_id = current_user.id
+    )
+    db.session.add(new_order)
+    db.session.commit()
+
+    for item in cart_items:
+        db.session.add(Product_Order(
+            quantity = item['quantity'],
+            product_id = item['productId'],
+            order_id = new_order.id
+        ))
+        cart_items = Cart_Item.query.filter(
+                Cart_Item.product_id == item['productId'],
+                Cart_Item.user_id == current_user.id
+            ).all()
+        for item in cart_items:
+            db.session.delete(item)
+    db.session.commit()
+
+    return {'success': True, 'orderId': new_order.id}
+
+
 @product_routes.route('/cart/<int:product_id>', methods=['PATCH'])
 def update_cart_item_qty(product_id):
     """

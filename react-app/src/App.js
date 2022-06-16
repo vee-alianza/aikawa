@@ -14,10 +14,13 @@ import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
 import ReviewForm from './components/Reviews';
 import OrderSummary from './components/OrderSummary';
+// import LoadingPage from './components/LoadingPage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     (async () => {
@@ -26,7 +29,12 @@ function App() {
     })();
   }, [dispatch]);
 
-
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000)
+  // }, [loaded]);
 
   if (!loaded) {
     return null;
@@ -71,6 +79,9 @@ function App() {
         <Route path={'/products/reviews/:reviewId'}>
           < ReviewForm />
         </Route>
+        {/* <Route>
+              <LoadingPage />
+            </Route> */}
       </Switch>
     </BrowserRouter>
   );

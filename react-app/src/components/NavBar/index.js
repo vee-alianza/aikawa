@@ -15,10 +15,10 @@ const NavBar = () => {
   return (
     <nav>
       <div className='navbar__container'>
-        {/* <div className='navbar__logo'>
-          <img src= alt="" />
+        <div className='navbar__logo'>
+          <img src='' alt='logo' />
 
-        </div> */}
+        </div>
 
         <div className='navbar__container'>
           <div className='navbar__icons'>

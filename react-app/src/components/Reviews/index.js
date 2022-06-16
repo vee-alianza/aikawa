@@ -20,11 +20,11 @@ const ReviewForm = () => {
                         <div className='review__align__right'>
                         </div>
                         <div className='review__align__right'>
+                            <i className='fa-solid fa-pencil'></i>
+                            <i className='fa-solid fa-trash-can'></i>
                             {/* <p className='date'>{getDate(review.create_date)}</p> */}
                             {/* <div hidden ={currentUser.id !== review?.user_id} className='review__edit-btn'*/}
                             <p className='date'>Date</p>
-                            <i className='fa-solid fa-pen-circle'></i>
-                            <i className='fa-solid fa-circle-trash'></i>
                         </div>
                         <div className='review__content'>
                             <p>Review content Review content Review content Review content Review content Review content</p>

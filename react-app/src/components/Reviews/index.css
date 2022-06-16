@@ -10,10 +10,10 @@
     border: 1px solid blue;
 }
 
-/* .review__align__right {
+.review__align__right {
     display: flex;
     flex-direction: column;
-} */
+}
 
 .review__container {
     border: 1px solid red;

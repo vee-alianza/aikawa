@@ -56,7 +56,7 @@ def update_order_item_qty(order_item_id):
     current_user.pending.total_cost = new_total
     db.session.commit()
     return {'success': True}
-    
+
 
 @order_routes.route('/<int:order_item_id>', methods=['DELETE'])
 @login_required

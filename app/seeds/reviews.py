@@ -12,12 +12,12 @@ def seed_reviews():
     lucky_user = fake.random_int(min=1, max=last_user_id)
     lucky_product = fake.random_int(min=1, max=last_product_id)
     lucky_combination = f'{lucky_user}-{lucky_product}'
-    
+
     while lucky_combination in used_combinations:
       lucky_user = fake.random_int(min=1, max=last_user_id)
       lucky_product = fake.random_int(min=1, max=last_product_id)
       lucky_combination = f'{lucky_user}-{lucky_product}'
-    
+
     used_combinations.add(lucky_combination)
 
     db.session.add(Review(
@@ -27,9 +27,9 @@ def seed_reviews():
       user_id = lucky_user,
       product_id = lucky_product
     ))
-  
+
   db.session.commit()
-      
+
 
 
 

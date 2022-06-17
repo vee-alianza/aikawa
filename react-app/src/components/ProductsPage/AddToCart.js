@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addToCart } from '../../store/products';
 import './index.css';
 
 const AddToCart = ({ product }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [addMsg, setAddMsg] = useState('Add to cart');
 
     const handleAdd = async () => {
@@ -12,6 +14,7 @@ const AddToCart = ({ product }) => {
 
         if (success) {
             setAddMsg('Added to cart!');
+            history.push('/shoppingcart');
             setTimeout(() => {
                 setAddMsg('Add to cart');
             }, 2000);

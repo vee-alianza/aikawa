@@ -8,8 +8,8 @@ def seed_users():
 
     fake_profile_1 = fake.simple_profile()
     demo = User(
-            username='Demo', 
-            email='demo@aa.io', 
+            username='Demo',
+            email='demo@aa.io',
             password='password',
             first_name=fake_profile_1['name'].split(' ')[0],
             last_name=fake_profile_1['name'].split(' ')[1],
@@ -22,8 +22,8 @@ def seed_users():
 
     fake_profile_2 = fake.simple_profile()
     marnie = User(
-            username='marnie', 
-            email='marnie@aa.io', 
+            username='marnie',
+            email='marnie@aa.io',
             password='password',
             first_name=fake_profile_2['name'].split(' ')[0],
             last_name=fake_profile_2['name'].split(' ')[1],
@@ -36,8 +36,8 @@ def seed_users():
 
     fake_profile_3 = fake.simple_profile()
     bobbie = User(
-            username='bobbie', 
-            email='bobbie@aa.io', 
+            username='bobbie',
+            email='bobbie@aa.io',
             password='password',
             first_name=fake_profile_3['name'].split(' ')[0],
             last_name=fake_profile_3['name'].split(' ')[1],
@@ -55,8 +55,8 @@ def seed_users():
     for _ in range(fake.random_int(min=5, max=20)):
         fake_profile = fake.simple_profile()
         db.session.add(User(
-            username=fake_profile['username'], 
-            email=fake_profile['mail'], 
+            username=fake_profile['username'],
+            email=fake_profile['mail'],
             password='password',
             first_name=fake_profile['name'].split(' ')[0],
             last_name=fake_profile['name'].split(' ')[1],

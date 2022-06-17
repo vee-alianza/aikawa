@@ -85,7 +85,7 @@
   align-items: center;
 }
 
-.delete-review-buttons__container > button {
+.delete-review-buttons__container>button {
   width: 4rem;
   height: 2rem;
 }

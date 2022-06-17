@@ -71,6 +71,13 @@
 
 
 /* ---------------------------------- */
+.navbar-logout__btn {
+    font-family: 'Orbitron', sans-serif;
+    background: none;
+    border: none;
+    text-align: center;
+}
+
 .login__container form #demo__btn,
 .sign-up__container form #sign-up__btn {
     position: relative;
@@ -351,4 +358,15 @@
     100% {
         bottom: 100%;
     }
+}
+
+.auth__link span {
+    /* padding-top: 20px; */
+    color: white
+}
+
+.auth__link {
+    margin: auto;
+    margin-top: 10px;
+    font-size: 14px;
 }

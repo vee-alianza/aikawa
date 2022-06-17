@@ -3,6 +3,7 @@ import { QuantityPicker } from 'react-qty-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getOrderDetailsThunk, updateOrderItemQty, removeOrderItem } from '../../store/orders';
+import EditAddressModal from './EditAddressModal';
 import './index.css';
 
 let delayedUpdate = {};
@@ -12,8 +13,17 @@ const OrderSummary = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const order = useSelector(state => state.orders.currentOrder);
+  const user = useSelector(state => state.session.user);
+  const shippingDetails = useSelector(state => state.session.shippingDetails);
   const [orderItems, setOrderItems] = useState([]);
   const [orderTotal, setOrderTotal] = useState(0);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
+  const [country, setCountry] = useState('');
 
   useEffect(() => {
     if (!order) {
@@ -31,6 +41,18 @@ const OrderSummary = () => {
 
     return () => delayedUpdate = {};
   }, [dispatch, order, orderId]);
+
+  useEffect(() => {
+    if (shippingDetails) {
+      setFirstName(shippingDetails.firstName);
+      setLastName(shippingDetails.lastName);
+      setAddress(shippingDetails.address);
+      setCity(shippingDetails.city);
+      setState(shippingDetails.state);
+      setZip(shippingDetails.zip);
+      setCountry(shippingDetails.country);
+    }
+  }, [shippingDetails]);
 
   const handleQtyChange = (value, itemTitle, orderItemId) => {
     setOrderItems(prev => {
@@ -81,6 +103,8 @@ const OrderSummary = () => {
     }
   };
 
+  if (!user) return history.push('/products');
+
   return (
     <div className='order-details__container'>
       <h1>Order details:</h1>
@@ -108,6 +132,31 @@ const OrderSummary = () => {
             </div>
           ))}
           <h2>{`Total: $${orderTotal.toFixed(2)}`}</h2>
+          <div className='order-details__shipping-info'>
+            <h3>Ship to:</h3>
+            <div>{`${firstName} ${lastName}`}</div>
+            <div>{`${address}, ${city}`}</div>
+            <div>{`${state} ${zip}`}</div>
+            <div>{country}</div>
+            <div>
+              <EditAddressModal
+                firstName={firstName}
+                lastName={lastName}
+                address={address}
+                city={city}
+                state={state}
+                zip={zip}
+                country={country}
+                setFirstName={setFirstName}
+                setLastName={setLastName}
+                setAddress={setAddress}
+                setCity={setCity}
+                setState={setState}
+                setZip={setZip}
+                setCountry={setCountry}
+              />
+            </div>
+          </div>
         </>
       }
     </div>

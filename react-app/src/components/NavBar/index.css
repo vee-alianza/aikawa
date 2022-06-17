@@ -1,39 +1,49 @@
-.fa-rocket {
-    font-size: 30pt;
-    color: blue;
-    background: green;
+#link {
+    text-decoration: none;
 }
 
-.nav__container .navbar__icons {
-    display: flex;
-    /* grid-template-columns: 3fr 300px 3fr; */
-    flex-direction: row-reverse;
-    justify-content: center;
-    padding-right: 2px;
-    border-bottom: 1px solid blue;
-    /* align-items: center; */
-    position: sticky;
-    top: 0;
-    z-index: 1;
+.navbar__container {
+    font-family: 'Orbitron', sans-serif;
+    /* margin: 0 auto; */
+    /* padding: 10em 3em; */
+    text-align: center;
 }
 
 .navbar__container img {
     width: 10rem;
 }
 
+.navbar__logo {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.navbar__logo p {
+    font-size: 35px;
+    font-weight: 600;
+}
+
 .navbar__left {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
+    /* gap: 20px; */
 }
 
-.navbar__right {
+.navbar__right .navbar__icons {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    gap: 50px;
+    padding-left: 2rem;
+    /* align-items: center; */
+    /* gap: 50px; */
+
 }
+
+/* .navbar-logout__btn {
+    background: none;
+    border: none;
+} */
 
 
 /*

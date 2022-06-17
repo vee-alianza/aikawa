@@ -160,11 +160,13 @@ const ShoppingCart = () => {
               <div>Total:</div>
               <h2>{`$${cartTotal.toFixed(2)}`}</h2>
             </div>
-            <button
-              onClick={placeOrder}
-            >
-              Place your order
-            </button>
+            {cartItems.length > 0 &&
+              <button
+                onClick={placeOrder}
+              >
+                Proceed to checkout
+              </button>
+            }
           </div>
         </>
       }

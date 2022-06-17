@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { login } from '../../store/session';
 // import ErrorMessage from "../ErrorMessage";
 import './auth.css'
@@ -107,6 +107,9 @@ const LoginForm = () => {
                 Demo User
               </button>
             </div>
+            <Link to="/sign-up" className="auth__link">
+              Don't have an account? <span>Sign Up!</span>
+            </Link>
           </form>
         </div >
       </div>

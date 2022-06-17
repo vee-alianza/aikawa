@@ -1,8 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { getReviewsThunk, addNewReview, deleteReview } from "../../store/reviews"
-import ReactStars from "react-stars";
 import { fetchCurrentProductData } from "../../store/session"
 import { rateProduct } from "../../store/products";
 import './index.css';
@@ -25,11 +23,6 @@ const ReviewForm = ({ product }) => {
             setUserRating(Number(currentUserRating));
         }
     }, [dispatch, currentUserRating, product.id]);
-
-    const handleDelete = async (e, id) => {
-        e.preventDefault();
-        await dispatch(deleteReview(id))
-    };
 
     const newerReview = async (e) => {
         e.preventDefault();
@@ -85,12 +78,12 @@ const ReviewForm = ({ product }) => {
                 <h4>REVIEW BOX</h4>
                 <div className='review__box'>
                     <div className='star__ratings'>
-                        {product.userId !== sessionUser.id && currentUserRating &&
+                        {/* {product.userId !== sessionUser.id && currentUserRating &&
                             <ReactStars
                                 size={36}
                                 value={userRating}
                                 onChange={handleRating}
-                            />}
+                            />} */}
 
                     </div>
                     <div className='reviews__list'>

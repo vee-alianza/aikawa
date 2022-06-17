@@ -1,3 +1,5 @@
+import { getUserShippingDetails } from "./session";
+
 const GET_ORDER_DETAILS = 'order/GET_ORDER_DETAILS';
 const CREATE_ORDER = "order/CREATE_ORDER";
 const REMOVE_ORDER = 'order/REMOVE_ORDER';
@@ -28,8 +30,8 @@ export const getOrderDetailsThunk = (id) => async (dispatch) => {
     const response = await fetch(`/api/orders/${id}`);
     if (response.ok) {
         const data = await response.json();
-        console.log(data)
         dispatch(getOrderDetails(data.order));
+        dispatch(getUserShippingDetails(data.shippingDetails));
     } else {
         console.error('Error fetching order details...');
     }

@@ -25,7 +25,7 @@ def get_product_details(product_id):
     Gets a product's details
     """
     product = Product.query.get(product_id)
-    return {'product': product.to_dict()}
+    return {'product': product.to_dict_with_reviews()}
 
 
 @product_routes.route('/cart')
@@ -110,6 +110,10 @@ def checkout_user_cart():
     Creates order preview from user's submitted cart
     """
     cart_items = request.json['orderedItems']
+
+    if len(cart_items) < 1:
+        return {'errors': ['No cart items to checkout.']}, 400
+        
     order_total = 0
 
     for item in cart_items:

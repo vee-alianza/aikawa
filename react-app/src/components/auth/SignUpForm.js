@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import './auth.css'
 
@@ -40,7 +40,7 @@ const SignUpForm = () => {
   };
 
   if (user) {
-    return <Redirect to='/' />;
+    return <Redirect to='/home' />;
   }
 
   return (
@@ -101,6 +101,9 @@ const SignUpForm = () => {
                 <span></span>
                 Sign Up</button>
             </div>
+            <Link to="/login" className="auth__link">
+              Already have an account? <span>Log In!</span>
+            </Link>
           </form>
         </div>
       </div>

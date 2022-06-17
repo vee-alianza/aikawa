@@ -3,6 +3,7 @@ const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const UPDATE_USER_RATING = 'session/updateUserRating';
 const GET_CURRENT_REVIEW_DATA = 'session/getCurrentReviewData';
+const GET_USER_SHIPPING_DETAILS = 'session/GET_USER_SHIPPING_DETAILS';
 
 
 const setUser = (user) => ({
@@ -28,16 +29,19 @@ export const updateUserRating = (rating) => {
   };
 };
 
+export const getUserShippingDetails = (shippingDetails) => {
+  return {
+    type: GET_USER_SHIPPING_DETAILS,
+    payload: shippingDetails
+  }
+};
+
+
 export const fetchCurrentProductData = (reviewId) => async (dispatch) => {
   const response = await fetch(`/api/session/review/${reviewId}`);
   const data = await response.json();
   dispatch(getCurrentReviewData(data));
   return response;
-};
-
-const initialState = {
-  user: null,
-  currentProductRating: null,
 };
 
 export const authenticate = () => async (dispatch) => {
@@ -122,15 +126,23 @@ export const signUp = (username, email, password) => async (dispatch) => {
   } else {
     return ['An error occurred. Please try again.']
   }
-}
+};
+
+
+const initialState = {
+  user: null,
+  shippingDetails: null
+};
 
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { user: action.payload }
+      return { ...state, user: action.payload };
     case REMOVE_USER:
-      return { user: null }
+      return { ...state, user: null };
+    case GET_USER_SHIPPING_DETAILS:
+      return { ...state, shippingDetails: action.payload }
     default:
       return state;
   }

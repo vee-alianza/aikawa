@@ -1,81 +1,44 @@
-const GET_REVIEWS = 'reviews/GET_REVIEWS';
-const ADD_REVIEW = 'reviews/ADD_REVIEW';
-const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
-const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
+import { getUserProductReview } from "./products";
 
-const getReviews = (reviews) => {
-    return {
-        type: GET_REVIEWS,
-        payload: reviews
-    };
-};
-const addReviews = (review) => {
-    return {
-        type: ADD_REVIEW,
-        payload: review
-    };
-};
-const updateReviews = (review) => {
-    return {
-        type: UPDATE_REVIEW,
-        payload: review
-    };
-};
-const removeReviews = (reviewId) => {
-    return {
-        type: DELETE_REVIEW,
-        payload: reviewId
-    };
-};
-
-export const getReviewsThunk = () => async (dispatch) => {
-    const response = await fetch('/api/reviews/');
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(getReviews(data.reviews));
-    }
-};
-
-export const addNewReview = (review) => async dispatch => {
-    const response = await fetch('/api/reviews/new', {
-        method: 'POST',
-        body: JSON.stringify(review)
+export const updateUserReview = (review) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/${review.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ review })
     });
-    if (response.ok) {
-        const data = await response.json();
-        // console.log(data);
-        dispatch(addReviews(data.review));
-    } else {
-        const error = await response.json();
-        Promise.reject(error.errors);
-    }
-    return response;
+    const data = await response.json();
+    return data;
 };
 
-export const deleteReview = (reviewId) => async dispatch => {
+export const deleteUserReview = (reviewId) => async (dispatch) => {
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
     });
+    return response.ok;
+};
+
+export const getUserProductReviewThunk = (productId) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/products/${productId}`);
     if (response.ok) {
-        dispatch(removeReviews(reviewId));
+        const data = await response.json();
+        dispatch(getUserProductReview(data.hasReviewed));
     }
-    return (response);
+    return response.ok;
 };
 
-const initialState = {};
-
-const reviewReducer = (state = initialState, action) => {
-    let newState;
-    switch (action.type) {
-        case GET_REVIEWS:
-            newState = { ...state };
-            action.payload.reviews.forEach(review => {
-                newState[reviewReducer.id] = review;
-            });
-            return newState;
-        default:
-            return state;
+export const addUserReview = (review) => async (dispatch) => {
+    const response = await fetch('/api/reviews/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ review })
+    });
+    const data = await response.json();
+    if (data.success) {
+        dispatch(getUserProductReview(true));
     }
+    return data;
 };
-
-export default reviewReducer;

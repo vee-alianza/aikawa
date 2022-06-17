@@ -6,6 +6,7 @@ const GET_USER_CART = 'products/GET_USER_CART';
 const REMOVE_CART_PRODUCT = 'products/REMOVE_CART_PRODUCT';
 const USER_ORDER_PLACED = 'products/USER_ORDER_PLACED';
 const ADD_REVIEW_RATING = 'products/ADD_REVIEW_RATING';
+const GET_USER_PRODUCT_REVIEW = 'products/GET_USER_PRODUCT_REVIEW';
 
 
 const getProducts = (products) => {
@@ -46,6 +47,13 @@ const addReviewRating = (rating) => {
     return {
         type: ADD_REVIEW_RATING,
         payload: rating
+    };
+};
+
+export const getUserProductReview = (hasReviewed) => {
+    return {
+        type: GET_USER_PRODUCT_REVIEW,
+        payload: hasReviewed
     };
 };
 
@@ -190,7 +198,8 @@ export const rateProduct = (productId, rating) => async dispatch => {
 const initialState = {
     allProducts: null,
     currentProduct: null,
-    userCart: null
+    userCart: null,
+    hasUserReview: null
 };
 
 const productReducer = (state = initialState, action) => {
@@ -212,6 +221,10 @@ const productReducer = (state = initialState, action) => {
             newState = { ...state };
             newState.userCart = action.payload;
             return newState;
+        case GET_USER_PRODUCT_REVIEW:
+            newState = { ...state };
+            newState.hasUserReview = action.payload;
+            return newState;
         case REMOVE_CART_PRODUCT:
             newState = { ...state };
             newState.userCart = state.userCart.filter((item) => item.productId !== action.payload);
@@ -223,6 +236,7 @@ const productReducer = (state = initialState, action) => {
         case ADD_REVIEW_RATING:
             newState = Object.assign({}, state);
             newState.currentProduct.rating = action.payload;
+            return newState;
         default:
             return state;
     }

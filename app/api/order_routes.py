@@ -19,9 +19,15 @@ def validation_errors_to_error_messages(validation_errors):
 @login_required
 def all_orders():
     """
-
+    testing
     """
-    pass
+    test = Order.query.order_by(Order.id.desc()).first().id
+    print()
+    print()
+    print(test)
+    print()
+    print()
+    return {'test': test}
 
 
 @order_routes.route('/<int:order_id>')
@@ -31,7 +37,7 @@ def get_order_details(order_id):
     Get single order details
     """
     order = Order.query.get(order_id)
-    return {'order': order.to_dict()}
+    return {'order': order.to_dict(), 'shippingDetails': current_user.shipping_details()}
 
 
 @order_routes.route('/<int:order_item_id>', methods=['PATCH'])

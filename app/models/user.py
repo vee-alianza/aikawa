@@ -13,15 +13,15 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    address = db.Column(db.String(150))
-    city = db.Column(db.String(150))
-    state = db.Column(db.String(150))
+    address = db.Column(db.String)
+    city = db.Column(db.String)
+    state = db.Column(db.String)
     zip_code = db.Column(db.Integer)
-    country = db.Column(db.String(150))
+    country = db.Column(db.String)
 
 
     orders = db.relationship('Order', backref='user', cascade='all, delete', lazy='dynamic')
-    reviews = db.relationship('Review', backref='user', cascade='all, delete')
+    reviews = db.relationship('Review', backref='user', cascade='all, delete', lazy='dynamic')
     cart = db.relationship('Cart_Item', backref='user', cascade='all, delete')
 
     @property
@@ -44,4 +44,16 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email
+        }
+
+    def shipping_details(self):
+        return {
+            'firstName': self.first_name,
+            'lastName': self.last_name,
+            'email': self.email,
+            'address': self.address,
+            'city': self.city,
+            'state': self.state,
+            'zip': self.zip_code,
+            'country': self.country
         }

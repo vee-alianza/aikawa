@@ -1,0 +1,13 @@
+.footer__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer__about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}

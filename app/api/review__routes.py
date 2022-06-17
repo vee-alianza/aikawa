@@ -10,3 +10,4 @@ def get_reviews():
     """
     Gets all reviews
     """
+    pass

@@ -29,8 +29,12 @@ def add_user_review():
     new_review_data = request.json['review']
     if new_review_data['title'].strip() == '':
         errors.append('Title required.')
+    if len(new_review_data['title']) > 100:
+        errors.append('Title must be fewer than 100 characters.')
     if new_review_data['content'].strip() == '':
         errors.append('Content required')
+    if len(new_review_data['content']) > 300:
+        errors.append('Review must be less than 300 characters.')
     if 5 < new_review_data['rating'] < 1:
         errors.append('Invalid rating.')
     if len(errors) > 0:
@@ -58,8 +62,12 @@ def update_user_review(review_id):
     new_review_data = request.json['review']
     if new_review_data['title'].strip() == '':
         errors.append('Title required.')
+    if len(new_review_data['title']) > 100:
+        errors.append('Title must be fewer than 100 characters.')
     if new_review_data['content'].strip() == '':
         errors.append('Content required')
+    if len(new_review_data['content']) > 300:
+        errors.append('Review must be less than 300 characters.')
     if 5 < new_review_data['rating'] < 1:
         errors.append('Invalid rating.')
     if len(errors) > 0:

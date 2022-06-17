@@ -23,14 +23,20 @@ const NavBar = () => {
       </div>
       <div className='navbar__right'>
         <div className='navbar__icons'>
-          {/* <span>
-              <i className="fa-solid fa-rocket"></i>
-            </span> */}
+          <span>
+            <i className="fa-solid fa-moon"></i>
+          </span>
           <NavLink to='/products' exact={true} activeClassName='active'>
             Products
           </NavLink>
+          <span>
+            <i className="fa-solid fa-cart-shopping"></i>
+          </span>
         </div>
         <div className='navbar__logout' onClick={onLogout}>
+          <span>
+            <i className="fa-solid fa-rocket"></i>
+          </span>
           <LogoutButton />
         </div>
       </div>

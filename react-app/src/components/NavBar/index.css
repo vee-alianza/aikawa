@@ -1,16 +1,24 @@
-.navbar__container {
-    display: grid;
-    grid-template-columns: 1fr 160px 1fr;
-    padding: 2px;
+.fa-rocket {
+    font-size: 30pt;
+    color: blue;
+    background: green;
+}
+
+.nav__container .navbar__icons {
+    display: flex;
+    /* grid-template-columns: 3fr 300px 3fr; */
+    flex-direction: row-reverse;
+    justify-content: center;
+    padding-right: 2px;
     border-bottom: 1px solid blue;
-    align-items: center;
+    /* align-items: center; */
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
 .navbar__container img {
-    width: 20rem;
+    width: 10rem;
 }
 
 .navbar__left {
@@ -24,11 +32,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 20px;
+    gap: 50px;
 }
 
 
-
+/*
 .navbar__logo {
     animation: bounce 0.5s;
     animation-direction: alternate;
@@ -44,4 +52,4 @@
     to {
         transform: translate3d(0, 200px, 0);
     }
-}
+} */

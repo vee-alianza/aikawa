@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -8,7 +8,7 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import SplashPage from './components/SplashPage';
-// import Homepage from './components/Homepage';
+import Homepage from './components/Homepage';
 import NavBar from './components/NavBar';
 import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
@@ -20,8 +20,9 @@ import OrderSummary from './components/OrderSummary';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
 
 
   useEffect(() => {
@@ -30,6 +31,8 @@ function App() {
       setLoaded(true);
     })();
   }, [dispatch]);
+
+
 
   // useEffect(() => {
   //   setLoading(true);
@@ -46,7 +49,9 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path='/' exact={true} >
-          <SplashPage />
+          <>
+            <SplashPage />
+          </>
         </Route>
         <Route path='/login' exact={true}>
           <LoginForm />
@@ -55,8 +60,7 @@ function App() {
           <SignUpForm />
         </Route>
         <ProtectedRoute path='/home' exact={true} loaded={loaded}>
-          <NavBar />
-          {/* <Homepage /> */}
+          <Homepage />
         </ProtectedRoute>
         <ProtectedRoute path='/users' exact={true} loaded={loaded}>
           <UsersList />

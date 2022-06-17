@@ -7,7 +7,7 @@ fake = Faker()
 def seed_product_images():
     with open('./app/seeds/products/random-furniture-img-data.json') as file:
         images = json.load(file)
-    
+
     products = Product.query.all()
 
     for i in range(len(products)):

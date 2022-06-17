@@ -113,7 +113,7 @@ def checkout_user_cart():
 
     if len(cart_items) < 1:
         return {'errors': ['No cart items to checkout.']}, 400
-        
+
     order_total = 0
 
     for item in cart_items:

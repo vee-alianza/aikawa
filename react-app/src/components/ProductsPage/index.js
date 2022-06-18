@@ -2,9 +2,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Rating from 'react-rating';
 import { AiOutlineRobot, AiFillRobot } from 'react-icons/ai';
 import { getProductsThunk } from '../../store/products';
+import Rating from 'react-rating';
+import NavBar from '../NavBar';
 import './index.css'
 
 const ProductsPage = () => {
@@ -33,6 +34,7 @@ const ProductsPage = () => {
 
   return (
     <>
+      <NavBar />
       <h1>Product Page</h1>
       <div className='products__container'>
         <div className='product-details__container'>

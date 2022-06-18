@@ -9,7 +9,7 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import SplashPage from './components/SplashPage';
 import Homepage from './components/Homepage';
-import NavBar from './components/NavBar';
+// import NavBar from './components/NavBar';
 import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';

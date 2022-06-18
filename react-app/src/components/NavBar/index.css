@@ -1,9 +1,4 @@
-#link {
-    text-decoration: none;
-}
-
 .navbar__container {
-    font-family: 'Orbitron', sans-serif;
     /* margin: 0 auto; */
     /* padding: 10em 3em; */
     text-align: center;
@@ -44,7 +39,6 @@
     background: none;
     border: none;
 } */
-
 
 /*
 .navbar__logo {

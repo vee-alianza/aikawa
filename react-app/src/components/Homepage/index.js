@@ -1,11 +1,8 @@
-import NavBar from '../NavBar';
-
 import './index.css'
 
 const Homepage = () => {
     return (
         <>
-            <NavBar />
             <div className='gallery__container'>
                 <h1>WELCOME!</h1>
                 <div className='gallery' >

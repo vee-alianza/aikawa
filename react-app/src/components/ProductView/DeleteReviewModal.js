@@ -31,7 +31,7 @@ const DeleteReviewModal = ({ review, setReviews }) => {
           {showModal &&
             <Modal onClose={() => setShowModal(false)}>
               <div className='delete-review__header'>
-                Delete review?
+                Are you sure you want to delete this review?
               </div>
               <div className='delete-review-buttons__container'>
                 <button

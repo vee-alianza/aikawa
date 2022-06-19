@@ -14,6 +14,7 @@ import './index.css';
 let delayedUpdate = {};
 
 const ShoppingCart = () => {
+  const toUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const dispatch = useDispatch();
   const history = useHistory();
   const userCart = useSelector(state => state.products.userCart);
@@ -158,7 +159,7 @@ const ShoppingCart = () => {
             <h2>Order summary:</h2>
             <div className='order-total__container'>
               <div>Total:</div>
-              <h2>{`$${cartTotal.toFixed(2)}`}</h2>
+              <h2>{`${toUSD.format(cartTotal)}`}</h2>
             </div>
             {cartItems.length > 0 &&
               <button

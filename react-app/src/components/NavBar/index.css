@@ -1,6 +1,4 @@
 .navbar__container {
-    /* margin: 0 auto; */
-    /* padding: 10em 3em; */
     text-align: center;
 }
 
@@ -23,37 +21,76 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* gap: 20px; */
 }
 
 .navbar__right .navbar__icons {
     display: flex;
     justify-content: flex-end;
     padding-left: 2rem;
-    /* align-items: center; */
-    /* gap: 50px; */
-
 }
 
-/* .navbar-logout__btn {
-    background: none;
+.navbar__navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+.navbar__navigation button {
     border: none;
-} */
-
-/*
-.navbar__logo {
-    animation: bounce 0.5s;
-    animation-direction: alternate;
-    animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
-    animation-iteration-count: infinite;
+    font-size: 1.4rem;
 }
 
-@keyframes bounce {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
+.navbar__navigation li {
+    float: left;
+}
 
-    to {
-        transform: translate3d(0, 200px, 0);
-    }
-} */
+.navbar__navigation li button {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar__navigation li button:hover:not(.active) {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.navbar__navigation li button.active {
+    color: white;
+    background-color: purple;
+}
+
+.profile-dropdown__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 7rem;
+    height: 7rem;
+    margin-top: 1rem;
+    right: 0.1rem;
+    position: absolute;
+    z-index: 10;
+    background-color: #f3f3f3;
+}
+
+.profile-dropdown__container>div {
+    padding: 1rem;
+}
+
+.profile-dropdown__container>div:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.profile-dropdown__container>div:not(:last-child) {
+    border-bottom: 0.1rem solid #666;
+}
+
+.profile-dropdown__container.hide {
+    display: none;
+}

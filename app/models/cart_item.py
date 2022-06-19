@@ -19,6 +19,7 @@ class Cart_Item(db.Model):
             'quantity': self.quantity,
             'title': self.product.to_dict()['title'],
             'price': self.product.to_dict()['price'],
+            'basePrice': self.product.to_dict()['price'],
             'description': self.product.to_dict()['description'],
             'image': self.product.to_dict()['images'][0]['url']
         }

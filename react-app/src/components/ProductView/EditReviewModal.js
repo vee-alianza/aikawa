@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AiFillRobot, AiOutlineRobot } from 'react-icons/ai';
+// import { AiFillRobot, AiOutlineRobot } from 'react-icons/ai';
+import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from 'react-rating';
 import { Modal } from '../../context/Modal';
@@ -98,8 +99,8 @@ const EditReviewModal = ({ review, setReviews }) => {
                 </div>
                 <Rating
                   initialRating={rating}
-                  emptySymbol={<AiOutlineRobot />}
-                  fullSymbol={<AiFillRobot />}
+                  emptySymbol={<IoPlanetOutline />}
+                  fullSymbol={<IoPlanetSharp />}
                   onChange={(value) => setRating(value)}
                 />
                 <div className='edit-review-buttons__container'>

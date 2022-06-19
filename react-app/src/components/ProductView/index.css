@@ -5,6 +5,7 @@
 .single-product__image {
   width: auto;
   height: 32rem;
+  border-radius: 10px;
 }
 
 .selector__container {

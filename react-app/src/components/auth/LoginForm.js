@@ -5,8 +5,16 @@ import { login } from '../../store/session';
 // import ErrorMessage from "../ErrorMessage";
 import './auth.css'
 
+const errorClass = {
+  emailInput: 'no-errors',
+  passInput: 'no-errors',
+  email: 'hide',
+  password: 'hide'
+};
+
 const LoginForm = () => {
-  const [errors, setErrors] = useState([]);
+  const [errorMsg, setErrorMsg] = useState({ email: '', password: '' });
+  const [dispErrClass, setDispErrClass] = useState({ ...errorClass });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
@@ -15,35 +23,28 @@ const LoginForm = () => {
   const onLogin = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
-    if (data) {
+    if (data && data.some((ele) => ele.includes('email') || ele.includes('password'))) {
+      const updateErrorClass = {};
       const errors = {};
-      if (Array.isArray(data)) {
-        data.forEach((error) => {
-          const label = error.split(':')[0].slice(0, -1);
-          const message = error.split(':')[1].slice(1);
-          errors[label] = message;
-        });
-      } else {
-        errors.overall = data;
-      }
-      setErrors(data);
+      data.forEach((errMsg) => {
+        if (errMsg.includes('password')) {
+          updateErrorClass.password = '';
+          updateErrorClass.passInput = '';
+          errors.password = errMsg.split(':')[1].trim();
+        }
+        if (errMsg.includes('email')) {
+          updateErrorClass.email = '';
+          updateErrorClass.emailInput = '';
+          errors.email = errMsg.split(':')[1].trim();
+        }
+      });
+      setDispErrClass((prev) => ({ ...prev, ...updateErrorClass }));
+      setErrorMsg((prev) => ({ ...prev, ...errors }));
     }
   };
 
-  const DemoUser = async (e) => {
-    e.preventDefault();
-    const data = await dispatch(login('demo@aa.io', 'password'));
-    if (data) {
-      const errors = {};
-      if (Array.isArray(data)) {
-        data.forEach((error) => {
-          const label = error.split(':')[0].slice(0, -1);
-          const message = error.split(':')[1].slice(1);
-          errors[label] = message;
-        });
-      }
-      setErrors(errors);
-    }
+  const DemoUser = () => {
+    dispatch(login('demo@aa.io', 'password'));
   }
 
   const updateEmail = (e) => {
@@ -61,51 +62,69 @@ const LoginForm = () => {
   return (
     <>
       <div className='login__wrapper'>
-        <div className='login__container'>
+        <div className={`login__container`}>
           <h2>Login</h2>
           <form onSubmit={onLogin} className='auth__form login'>
             <div className='login__details'>
-              {errors.map((error, ind) => (
-                <div key={ind}>{error}</div>
-              ))}
-              {/* <label htmlFor='email' className='email__label'>Email</label>> */}
-              {/* <h4>Email</h4> */}
               <input
-                className='email__input'
+                required
+                className={`email__input ${dispErrClass.emailInput}`}
                 name='email'
                 type='text'
                 placeholder='Email'
                 value={email}
-                onChange={updateEmail}
+                onChange={(e) => {
+                  updateEmail(e);
+                  if (!dispErrClass.email) {
+                    setDispErrClass((prev) => ({ ...prev, email: 'hide', emailInput: 'no-errors' }));
+                  }
+                }}
               />
+              <div className={`error__msg login ${dispErrClass.email}`}>
+                {errorMsg.email}
+              </div>
             </div>
             <div className='login__details'>
-              {/* <label htmlFor='password' className='password__label'>Password</label> */}
               <input
+                required
+                className={`${dispErrClass.passInput}`}
                 name='password'
                 type='password'
                 placeholder='Password'
                 value={password}
-                onChange={updatePassword}
+                onChange={(e) => {
+                  updatePassword(e);
+                  if (!dispErrClass.password) {
+                    setDispErrClass((prev) => ({ ...prev, password: 'hide', passInput: 'no-errors' }));
+                  }
+                }}
               />
-              <button type='submit'
-                id='login__btn'
-              >
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Login
-              </button>
-              <button type='submit'
-                id='demo__btn' onClick={DemoUser}
-              >
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Demo User
-              </button>
+              <div className={`error__msg login ${dispErrClass.password}`}>
+                {errorMsg.password}
+              </div>
+              <div>
+                <button
+                  type='submit'
+                  id='login__btn'
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Login
+                </button>
+                <button
+                  type='button'
+                  id='demo__btn'
+                  onClick={DemoUser}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Demo User
+                </button>
+              </div>
             </div>
             <Link to="/sign-up" className="auth__link">
               Don't have an account? <span>Sign Up!</span>

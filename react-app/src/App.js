@@ -13,7 +13,6 @@ import Homepage from './components/Homepage';
 import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
-import ReviewForm from './components/Reviews';
 import OrderSummary from './components/OrderSummary';
 
 // import LoadingPage from './components/LoadingPage';
@@ -82,12 +81,6 @@ function App() {
         <Route path='/ordersummary/:orderId' exact={true}>
           <OrderSummary />
         </Route>
-        <Route path={'/products/reviews/:reviewId'}>
-          < ReviewForm />
-        </Route>
-        {/* <Route>
-              <LoadingPage />
-            </Route> */}
       </Switch>
     </BrowserRouter>
   );

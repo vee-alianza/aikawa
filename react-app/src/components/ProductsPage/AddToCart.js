@@ -7,7 +7,6 @@ import './index.css';
 const AddToCart = ({ product }) => {
     const toUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
     const dispatch = useDispatch();
-    const history = useHistory();
     const [addMsg, setAddMsg] = useState('Add to cart');
 
     const handleAdd = async () => {
@@ -15,7 +14,6 @@ const AddToCart = ({ product }) => {
 
         if (success) {
             setAddMsg('Added to cart!');
-            history.push('/shoppingcart');
             setTimeout(() => {
                 setAddMsg('Add to cart');
             }, 2000);

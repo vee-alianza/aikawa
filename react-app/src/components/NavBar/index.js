@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../store/session';
@@ -10,6 +9,7 @@ const NavBar = () => {
   const currentLocation = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const dropdownContainer = useRef();
   const user = useSelector(state => state.session.user);
   const [activeClass, setActiveClass] = useState({ home: 'active', products: '' });
   const [dropdown, setDropdown] = useState(false);
@@ -84,6 +84,7 @@ const NavBar = () => {
           </li>
           <li style={{ float: 'right' }}>
             <button
+              ref={dropdownContainer}
               onFocus={() => setDropdown(true)}
               onBlur={() => setDropdown(false)}
             >
@@ -93,7 +94,7 @@ const NavBar = () => {
                   <div
                     onClick={() => {
                       history.push('/shoppingcart');
-                      setDropdown(false);
+                      dropdownContainer.current.blur();
                     }}
                   >
                     Cart

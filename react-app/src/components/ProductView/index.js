@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiFillRobot, AiOutlineRobot } from 'react-icons/ai';
+import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import Rating from 'react-rating';
 import { getUserProductReviewThunk } from '../../store/reviews';
@@ -10,7 +10,6 @@ import EditReviewModal from './EditReviewModal';
 import DeleteReviewModal from './DeleteReviewModal';
 import './index.css';
 import AddReviewModal from './AddReviewModal';
-import NavBar from '../NavBar';
 
 const ProductView = () => {
   const { productId } = useParams();
@@ -35,7 +34,6 @@ const ProductView = () => {
 
   return (
     <>
-      <NavBar />
       <div className='single-product-view__container'>
         {product &&
           <>
@@ -82,8 +80,8 @@ const ProductView = () => {
                     <div className='user-review__header'>
                       <Rating
                         initialRating={review.rating}
-                        emptySymbol={<AiOutlineRobot />}
-                        fullSymbol={<AiFillRobot />}
+                        emptySymbol={<IoPlanetOutline />}
+                        fullSymbol={<IoPlanetSharp />}
                         readonly
                       />
                       <div>{review.user.username}</div>

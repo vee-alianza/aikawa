@@ -10,6 +10,7 @@ let delayedUpdate = {};
 
 const OrderSummary = () => {
   const { orderId } = useParams();
+  const toUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const dispatch = useDispatch();
   const history = useHistory();
   const order = useSelector(state => state.orders.currentOrder);
@@ -128,10 +129,10 @@ const OrderSummary = () => {
               >
                 Remove item
               </button>
-              <div>{`$${item.totalPrice.toFixed(2)}`}</div>
+              <div>{`${toUSD.format(item.totalPrice)}`}</div>
             </div>
           ))}
-          <h2>{`Total: $${orderTotal.toFixed(2)}`}</h2>
+          <h2>{`Total: ${toUSD.format(orderTotal)}`}</h2>
           <div className='order-details__shipping-info'>
             <h3>Ship to:</h3>
             <div>{`${firstName} ${lastName}`}</div>

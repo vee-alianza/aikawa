@@ -2,10 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { AiOutlineRobot, AiFillRobot } from 'react-icons/ai';
+import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import { getProductsThunk } from '../../store/products';
 import Rating from 'react-rating';
-import NavBar from '../NavBar';
 import './index.css'
 
 const ProductsPage = () => {
@@ -34,7 +33,6 @@ const ProductsPage = () => {
 
   return (
     <>
-      <NavBar />
       <h1>Product Page</h1>
       <div className='products__container'>
         <div className='product-details__container'>
@@ -57,8 +55,8 @@ const ProductsPage = () => {
               <h3>{product.title}</h3>
               <Rating
                 initialRating={product.rating}
-                emptySymbol={<AiOutlineRobot />}
-                fullSymbol={<AiFillRobot />}
+                emptySymbol={<IoPlanetOutline />}
+                fullSymbol={<IoPlanetSharp />}
                 readonly
               />
               {product.numReviews >= 1 &&

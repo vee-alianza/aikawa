@@ -1,21 +1,60 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../store/session';
-import { FaShoppingCart, FaRocket, FaMoon } from "react-icons/fa";
-import LogoutButton from '../auth/LogoutButton';
+import { BsCart2, BsFillPersonFill } from 'react-icons/bs';
 import './index.css'
 
-
 const NavBar = () => {
+  const currentLocation = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
+  const [activeClass, setActiveClass] = useState({ home: 'active', products: '' });
+  const [dropdown, setDropdown] = useState(false);
+  const [dispNavbar, setDispNavbar] = useState(true);
+
+  useEffect(() => {
+    if (currentLocation.pathname === '/') {
+      setDispNavbar(false);
+    } else {
+      if (currentLocation.pathname.includes('home')) {
+        setActiveClass({ home: 'active', products: '' });
+      } else if (currentLocation.pathname.includes('products')) {
+        const productId = currentLocation.pathname.split('/');
+        if (!productId[2]) {
+          setActiveClass({ home: '', products: 'active' });
+        } else {
+          setActiveClass({ home: '', products: '' });
+        }
+      } else {
+        setActiveClass({ home: '', products: '' });
+      }
+      setDispNavbar(true);
+    }
+
+  }, [currentLocation.pathname]);
+
   const onLogout = async (e) => {
     history.push('/');
     await dispatch(logout());
-  }
-  // const sessionUser = useSelector((state) => state.session.user);
+    setDropdown(false);
+  };
+
+  const handleNavigate = (e) => {
+    const containerId = e.currentTarget.id;
+    if (containerId.includes('home') && !currentLocation.pathname.includes('home')) {
+      history.push('/home');
+    } else if (containerId.includes('products')) {
+      const productId = currentLocation.pathname.split('/');
+      if (!currentLocation.pathname.includes('products') || parseInt(productId[2], 10)) {
+        history.push('/products');
+      }
+    } else if (containerId.includes('shopping-cart') && !currentLocation.pathname.includes('shoppingcart')) {
+      history.push('/shoppingcart');
+    }
+  };
 
   return (
     <nav className='navbar__container'>
@@ -23,44 +62,61 @@ const NavBar = () => {
         <img src='https://user-images.githubusercontent.com/92604480/174006897-c3e8cf74-4c4a-4ed9-8080-039238d4bf18.png' alt='' />
         <p>AIKAWA</p>
       </div>
-      <div className='navbar__right'>
-        <div className='navbar__icons'>
-          <span>
-            <FaMoon size={26} />
-          </span>
-          <NavLink to='/products' exact={true}
-            activeClassName='active' id='link'>
-            Products
-          </NavLink>
-          <span>
-            <FaShoppingCart size={26} />
-
-            Add to Cart
-          </span>
-          <div className='navbar__icons navbar-logout__btn' onClick={onLogout}>
-            <span>
-              <FaRocket size={26} />
-              <LogoutButton />
-            </span>
-          </div>
-        </div>
-      </div>
-      {/* <div className='navbar__icons'>
-        <span>
-          <NavLink to='/login' exact={true} activeClassName='active'>
-            Login
-          </NavLink>
-        </span>
-      </div>
-      <div className='navbar__icons'>
-        <NavLink to='/sign-up' exact={true} activeClassName='active'>
-          Sign Up
-        </NavLink>
-      </div> */}
-
-      {/* <NavLink to='/users' exact={true} activeClassName='active'>
-            Users
-          </NavLink> */}
+      {dispNavbar &&
+        <ul className='navbar__navigation'>
+          <li>
+            <button
+              id='navbar-home'
+              className={activeClass.home}
+              onClick={handleNavigate}
+            >
+              Home
+            </button>
+          </li>
+          <li>
+            <button
+              id='navbar-products'
+              className={activeClass.products}
+              onClick={handleNavigate}
+            >
+              Products
+            </button>
+          </li>
+          <li style={{ float: 'right' }}>
+            <button
+              onFocus={() => setDropdown(true)}
+              onBlur={() => setDropdown(false)}
+            >
+              <BsFillPersonFill />
+              {dropdown &&
+                <div className='profile-dropdown__container'>
+                  <div
+                    onClick={() => {
+                      history.push('/shoppingcart');
+                      setDropdown(false);
+                    }}
+                  >
+                    Cart
+                  </div>
+                  {user &&
+                    <div onClick={onLogout}>
+                      Log out
+                    </div>
+                  }
+                </div>
+              }
+            </button>
+          </li>
+          <li style={{ float: 'right' }}>
+            <button
+              id='navbar-shopping-cart'
+              onClick={handleNavigate}
+            >
+              <BsCart2 />
+            </button>
+          </li>
+        </ul>
+      }
     </nav >
   );
 }

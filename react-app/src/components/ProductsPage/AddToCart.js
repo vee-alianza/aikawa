@@ -5,6 +5,7 @@ import { addToCart } from '../../store/products';
 import './index.css';
 
 const AddToCart = ({ product }) => {
+    const toUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
     const dispatch = useDispatch();
     const history = useHistory();
     const [addMsg, setAddMsg] = useState('Add to cart');
@@ -30,7 +31,7 @@ const AddToCart = ({ product }) => {
         <div className='add-to-cart__container'>
             <div className='add-to-cart__header'>
                 <h2>{product.title}</h2>
-                <h2>{`$${product.price}`}</h2>
+                <h2>{toUSD.format(product.price)}</h2>
             </div>
             <div>{product.description}</div>
             <button

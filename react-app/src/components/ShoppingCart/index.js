@@ -23,9 +23,11 @@ const ShoppingCart = () => {
   const [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {
-    if (!userCart) {
-      dispatch(getUserCartThunk());
-    } else {
+    dispatch(getUserCartThunk());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userCart) {
       const itemMap = {};
       let totalPrice = 0;
 

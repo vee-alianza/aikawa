@@ -13,9 +13,9 @@ const DeleteReviewModal = ({ review, setReviews }) => {
     const success = await dispatch(deleteUserReview(reviewId));
 
     if (success) {
-      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
       dispatch(getUserProductReview(false));
       setShowModal(false);
+      setReviews((prev) => prev.filter((review) => review.id !== reviewId));
     }
   };
 

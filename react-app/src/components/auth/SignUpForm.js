@@ -4,8 +4,19 @@ import { Redirect, Link } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import './auth.css'
 
+const errorClass = {
+  emailInput: 'no-errors',
+  userNameInput: 'no-errors',
+  passInput: 'no-errors',
+  email: 'hide',
+  userName: 'hide',
+  password: 'hide',
+  confirmPass: 'hide'
+};
+
 const SignUpForm = () => {
-  const [errors, setErrors] = useState([]);
+  const [errorMsg, setErrorMsg] = useState({ email: '', userName: '', password: '', confirmPass: '' });
+  const [dispErrClass, setDispErrClass] = useState({ ...errorClass });
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,9 +28,29 @@ const SignUpForm = () => {
     e.preventDefault();
     if (password === repeatPassword) {
       const data = await dispatch(signUp(username, email, password));
-      if (data) {
-        setErrors(data)
+      if (data && data.some((ele) => ele.includes('email') || ele.includes('password') || ele.includes('username'))) {
+        const updateErrorClass = {};
+        const errors = {};
+        data.forEach((errMsg) => {
+          if (errMsg.includes('email')) {
+            updateErrorClass.email = '';
+            errors.email = errMsg.split(':')[1].trim();
+          }
+          if (errMsg.includes('username')) {
+            updateErrorClass.userName = '';
+            errors.userName = errMsg.split(':')[1].trim();
+          }
+          if (errMsg.includes('password')) {
+            updateErrorClass.password = '';
+            errors.password = errMsg.split(':')[1].trim();
+          }
+        });
+        setDispErrClass((prev) => ({ ...prev, ...updateErrorClass }));
+        setErrorMsg((prev) => ({ ...prev, ...errors }));
       }
+    } else {
+      setDispErrClass((prev) => ({ ...prev, confirmPass: '' }));
+      setErrorMsg((prev) => ({ ...prev, confirmPass: 'Passwords must match.' }));
     }
   };
 
@@ -50,56 +81,83 @@ const SignUpForm = () => {
           <h2>Sign Up</h2>
           <form onSubmit={onSignUp} className='auth__form sign-up'>
             <div className='sign-up__details'>
-              {errors.map((error, ind) => (
-                <div key={ind}>{error}</div>
-              ))}
-
-              {/* <label>User Name</label> */}
               <input
+                // required
                 type='text'
                 name='username'
                 placeholder='Username'
-                onChange={updateUsername}
+                onChange={(e) => {
+                  updateUsername(e);
+                  if (!dispErrClass.userName) {
+                    setDispErrClass((prev) => ({ ...prev, userName: 'hide' }));
+                  }
+                }}
                 value={username}
               ></input>
+              <div className={`error__msg ${dispErrClass.userName}`}>
+                {errorMsg.userName}
+              </div>
             </div>
             <div className='sign-up__details'>
-              {/* <label>Email</label> */}
               <input
+                // required
                 type='text'
                 name='email'
                 placeholder='Email'
-                onChange={updateEmail}
+                onChange={(e) => {
+                  updateEmail(e);
+                  if (!dispErrClass.email) {
+                    setDispErrClass((prev) => ({ ...prev, email: 'hide' }));
+                  }
+                }}
                 value={email}
               ></input>
+              <div className={`error__msg ${dispErrClass.email}`}>
+                {errorMsg.email}
+              </div>
             </div>
             <div className='sign-up__details'>
-              {/* <label>Password</label> */}
               <input
+                // required
                 type='password'
                 name='password'
                 placeholder='Password'
-                onChange={updatePassword}
+                onChange={(e) => {
+                  updatePassword(e);
+                  if (!dispErrClass.password) {
+                    setDispErrClass((prev) => ({ ...prev, password: 'hide' }));
+                  }
+                }}
                 value={password}
               ></input>
+              <div className={`error__msg ${dispErrClass.password}`}>
+                {errorMsg.password}
+              </div>
             </div>
             <div className='sign-up__details'>
-              {/* <label>Repeat Password</label> */}
               <input
                 type='password'
                 name='repeat_password'
                 placeholder='Confirm Password'
-                onChange={updateRepeatPassword}
+                onChange={(e) => {
+                  updateRepeatPassword(e);
+                  if (!dispErrClass.confirmPass) {
+                    setDispErrClass((prev) => ({ ...prev, confirmPass: 'hide' }));
+                  }
+                }}
                 value={repeatPassword}
-                required={true}
+              // required
               ></input>
-
+              <div className={`error__msg ${dispErrClass.confirmPass}`}>
+                {errorMsg.confirmPass}
+              </div>
               <button type='submit' id='sign-up__btn'>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                Sign Up</button>
+                Sign Up
+              </button>
             </div>
             <Link to="/login" className="auth__link">
               Already have an account? <span>Log In!</span>

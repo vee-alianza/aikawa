@@ -49,7 +49,7 @@ class Product(db.Model):
             'images': [image.to_dict() for image in self.images],
             'rating': self.rating,
             'numReviews': len(self.all_reviews),
-            'reviews': [review.to_dict() for review in self.all_reviews]
+            'reviews': [review.to_dict() for review in reversed(self.all_reviews)]
         }
 
     def to_cart_item(self):

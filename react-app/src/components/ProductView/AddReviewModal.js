@@ -31,7 +31,7 @@ const AddReviewModal = ({ productId, setReviews }) => {
     const data = await dispatch(addUserReview({ productId, title, content, rating }));
     if (data.review) {
       setReviews((prev) => {
-        return [...prev, data.review];
+        return [data.review, ...prev];
       });
       setShowModal(false);
       setTitle('');

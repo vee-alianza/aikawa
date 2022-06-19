@@ -15,9 +15,9 @@
 .sign-up__container {
     width: 400px;
     padding: 40px;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
     border-radius: 10px;
 }
 
@@ -27,9 +27,8 @@
     padding: 0;
     color: #fff;
     text-align: center;
-    font-family: 'Orbitron', sans-serif;
+    font-family: "Orbitron", sans-serif;
 }
-
 
 .login__container .login__details,
 .sign-up__container .sign-up__details {
@@ -42,11 +41,26 @@
     padding: 10px 0;
     font-size: 16px;
     color: #fff;
-    margin-bottom: 30px;
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
     background: transparent;
+}
+
+:is(.login__container, .sign-up__container) input.no-errors {
+    margin-bottom: 30px;
+}
+
+.error__msg {
+    color: red;
+}
+
+.error__msg.login {
+    margin-bottom: 30px;
+}
+
+.error__msg.hide {
+    display: none;
 }
 
 /* .login__container .auth__form label,
@@ -69,16 +83,15 @@
     font-size: 12px;
 } */
 
-
 /* ---------------------------------- */
 .navbar-logout__btn {
-    font-family: 'Orbitron', sans-serif;
+    font-family: "Orbitron", sans-serif;
     background: none;
     border: none;
     text-align: center;
 }
 
-.login__container form #demo__btn,
+:is(#login__btn, .login__container form #demo__btn),
 .sign-up__container form #sign-up__btn {
     position: relative;
     display: inline-block;
@@ -88,38 +101,33 @@
     text-decoration: none;
     text-transform: uppercase;
     overflow: hidden;
-    transition: .5s;
+    transition: 0.5s;
     margin-top: 40px;
     letter-spacing: 4px;
     border: none;
     background: none;
     cursor: pointer;
     font-weight: normal;
-    font-family: 'Orbitron', sans-serif;
-
+    font-family: "Orbitron", sans-serif;
 }
 
-.login__container #demo__btn:hover,
+:is(#login__btn, .login__container #demo__btn):hover,
 .sign-up__container #sign-up__btn:hover {
     background: #03e9f4;
     color: #fff;
     border-radius: 5px;
     opacity: 1;
-    box-shadow: 0 0 5px #03e9f4,
-        0 0 25px #03e9f4,
-        0 0 50px #03e9f4,
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
         0 0 100px #03e9f4;
 }
 
-
-.login__container #demo__btn span,
+:is(#login__btn, .login__container #demo__btn) span,
 .sign-up__container #sign-up__btn span {
     position: absolute;
     display: block;
 }
 
-
-.login__container #demo__btn span:nth-child(1),
+:is(#login__btn, .login__container #demo__btn) span:nth-child(1),
 .sign-up__container #sign-up__btn span:nth-child(1) {
     top: 0;
     left: -100%;
@@ -140,8 +148,7 @@
     }
 }
 
-
-.login__container #demo__btn span:nth-child(2),
+:is(#login__btn, .login__container #demo__btn) span:nth-child(2),
 .sign-up__container #sign-up__btn span:nth-child(2) {
     top: -100%;
     right: 0;
@@ -149,8 +156,7 @@
     height: 100%;
     background: linear-gradient(180deg, transparent, #03e9f4);
     animation: btn-anim2 1s linear infinite;
-    animation-delay: .25s;
-
+    animation-delay: 0.25s;
 }
 
 @keyframes btn-anim2 {
@@ -164,7 +170,7 @@
     }
 }
 
-.login__container #demo__btn span:nth-child(3),
+:is(#login__btn, .login__container #demo__btn) span:nth-child(3),
 .sign-up__container #sign-up__btn span:nth-child(3) {
     bottom: 0;
     right: -100%;
@@ -172,8 +178,7 @@
     height: 2px;
     background: linear-gradient(270deg, transparent, #03e9f4);
     animation: btn-anim3 1s linear infinite;
-    animation-delay: .5s;
-
+    animation-delay: 0.5s;
 }
 
 @keyframes btn-anim3 {
@@ -195,7 +200,7 @@
     height: 100%;
     background: linear-gradient(360deg, transparent, #03e9f4);
     animation: btn-anim4 1s linear infinite;
-    animation-delay: .75s
+    animation-delay: 0.75s;
 }
 
 @keyframes btn-anim4 {
@@ -236,7 +241,7 @@
 } */
 /* --------------------------------------- */
 
-#demo__btn {
+:is(#login__btn, #demo__btn) {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
@@ -245,36 +250,31 @@
     text-decoration: none;
     text-transform: uppercase;
     overflow: hidden;
-    transition: .5s;
+    transition: 0.5s;
     margin-top: 40px;
     letter-spacing: 4px;
     border: none;
     background: none;
     cursor: pointer;
     font-weight: normal;
-    font-family: 'Orbitron', sans-serif;
-
+    font-family: "Orbitron", sans-serif;
 }
 
-#demo__btn:hover {
+:is(#login__btn, #demo__btn):hover {
     background: #03e9f4;
     color: #fff;
     border-radius: 5px;
     opacity: 1;
-    box-shadow: 0 0 5px #03e9f4,
-        0 0 25px #03e9f4,
-        0 0 50px #03e9f4,
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
         0 0 100px #03e9f4;
 }
 
-
-#demo__btn span {
+:is(#login__btn, #demo__btn) span {
     position: absolute;
     display: block;
 }
 
-
-#demo__btn span:nth-child(1) {
+:is(#login__btn, #demo__btn) span:nth-child(1) {
     top: 0;
     left: -100%;
     width: 100%;
@@ -294,16 +294,14 @@
     }
 }
 
-
-#demo__btn span:nth-child(2) {
+:is(#login__btn, #demo__btn) span:nth-child(2) {
     top: -100%;
     right: 0;
     width: 2px;
     height: 100%;
     background: linear-gradient(180deg, transparent, #03e9f4);
     animation: btn-anim2 1s linear infinite;
-    animation-delay: .25s;
-
+    animation-delay: 0.25s;
 }
 
 @keyframes btn-anim2 {
@@ -317,15 +315,14 @@
     }
 }
 
-#demo__btn span:nth-child(3) {
+:is(#login__btn, #demo__btn) span:nth-child(3) {
     bottom: 0;
     right: -100%;
     width: 100%;
     height: 2px;
     background: linear-gradient(270deg, transparent, #03e9f4);
     animation: btn-anim3 1s linear infinite;
-    animation-delay: .5s;
-
+    animation-delay: 0.5s;
 }
 
 @keyframes btn-anim3 {
@@ -346,7 +343,7 @@
     height: 100%;
     background: linear-gradient(360deg, transparent, #03e9f4);
     animation: btn-anim4 1s linear infinite;
-    animation-delay: .75s
+    animation-delay: 0.75s;
 }
 
 @keyframes btn-anim4 {
@@ -362,7 +359,7 @@
 
 .auth__link span {
     /* padding-top: 20px; */
-    color: white
+    color: white;
 }
 
 .auth__link {

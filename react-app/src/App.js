@@ -9,11 +9,11 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import SplashPage from './components/SplashPage';
 import Homepage from './components/Homepage';
-// import NavBar from './components/NavBar';
 import ProductsPage from './components/ProductsPage';
 import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
 import OrderSummary from './components/OrderSummary';
+import NavBar from './components/NavBar';
 
 // import LoadingPage from './components/LoadingPage';
 
@@ -46,6 +46,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <NavBar />
       <Switch>
         <Route path='/' exact={true} >
           <>
@@ -64,11 +65,9 @@ function App() {
         <ProtectedRoute path='/users' exact={true} loaded={loaded}>
           <UsersList />
         </ProtectedRoute>
-
         <ProtectedRoute path='/users/:userId' exact={true} loaded={loaded}>
           <User />
         </ProtectedRoute>
-
         <Route path='/products' exact={true} loaded={loaded}>
           <ProductsPage />
         </Route>

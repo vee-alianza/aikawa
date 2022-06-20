@@ -51,7 +51,6 @@ const OrderSummary = () => {
   }, [order]);
 
   useEffect(() => {
-    console.log(shippingDetails)
     if (shippingDetails) {
       let validFieldCount = 0;
       if (shippingDetails.firstName) {

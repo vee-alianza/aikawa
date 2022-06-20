@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { addToCart } from '../../store/products';
 import './index.css';
 
@@ -25,13 +24,18 @@ const AddToCart = ({ product }) => {
         }
     };
 
+
     return (
         <div className='add-to-cart__container'>
             <div className='add-to-cart__header'>
                 <h2>{product.title}</h2>
                 <h2>{toUSD.format(product.price)}</h2>
             </div>
-            <div>{product.description}</div>
+            <div
+                className='add-to-cart__product-description'
+            >
+                {product.description}
+            </div>
             <button
                 className='add-to-cart__button'
                 onClick={handleAdd}

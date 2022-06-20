@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { CgTrash } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../../context/Modal';
 import { deleteUserReview } from '../../store/reviews';
 import { getUserProductReview } from '../../store/products';
 
-const DeleteReviewModal = ({ review, setReviews }) => {
+const DeleteReviewModal = ({ review, setReviews, setIsReviewed }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +17,7 @@ const DeleteReviewModal = ({ review, setReviews }) => {
       dispatch(getUserProductReview(false));
       setShowModal(false);
       setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+      setIsReviewed(false);
     }
   };
 
@@ -24,9 +26,10 @@ const DeleteReviewModal = ({ review, setReviews }) => {
       {user && user.id === review.user.id &&
         <div>
           <button
+            className='delete-review__delete-btn'
             onClick={() => setShowModal(true)}
           >
-            Delete
+            <CgTrash />
           </button>
           {showModal &&
             <Modal onClose={() => setShowModal(false)}>

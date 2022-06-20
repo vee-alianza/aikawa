@@ -85,3 +85,26 @@ img .product__image__overlay {
 .load-more__button.hide {
   display: none;
 }
+
+/* ----------------- */
+.add-to-cart__product-description {
+  font-style: italic;
+  width: 35rem;
+}
+
+.add-to-cart__button {
+  margin-top: 1rem;
+  width: 10rem;
+  height: 3rem;
+  font-size: 1.4rem;
+}
+
+.add-to-cart__header {
+  display: flex;
+  justify-content: space-between;
+  width: 30rem;
+}
+
+.add-to-cart__button {
+  cursor: pointer;
+}

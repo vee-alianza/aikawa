@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import Rating from 'react-rating';
 import { getUserProductReviewThunk } from '../../store/reviews';
 import { getProductDetailsThunk } from '../../store/products';
 import AddToCart from '../ProductsPage/AddToCart';
-import EditReviewModal from './EditReviewModal';
-import DeleteReviewModal from './DeleteReviewModal';
-import './index.css';
 import AddReviewModal from './AddReviewModal';
+import ReviewCard from './ReviewCard';
+import './index.css';
 
 const ProductView = () => {
   const { productId } = useParams();
@@ -19,6 +16,7 @@ const ProductView = () => {
   const [prevImg, setPrevImg] = useState('');
   const [previewImgClicked, setPreviewImgClicked] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [isReviewed, setIsReviewed] = useState(true);
 
   useEffect(() => {
     dispatch(getProductDetailsThunk(productId));
@@ -36,72 +34,63 @@ const ProductView = () => {
     <>
       <div className='single-product-view__container'>
         {product &&
-          <>
+          <div>
             <div className='single-product-details__container'>
-              <img
-                className='single-product__image'
-                alt={product.title}
-                src={displayImg}
-              />
-              <div className='selector__container'>
-                {product.images.map((image) => (
-                  <div
-                    className='image__selector'
-                    key={image.id}
-                    onClick={() => {
-                      setDisplayImg(image.url);
-                      setPreviewImgClicked(true);
-                    }}
-                    onMouseEnter={() => {
-                      setPrevImg(displayImg);
-                      setDisplayImg(image.url);
-                    }}
-                    onMouseLeave={() => {
-                      if (!previewImgClicked) {
-                        setPrevImg('');
-                        setDisplayImg(prevImg);
-                      } else {
-                        setPreviewImgClicked(false);
-                      }
-                    }}
-                  />
-                ))}
+              <div className='product-details__left'>
+                <img
+                  className='single-product__image'
+                  alt={product.title}
+                  src={displayImg}
+                />
+                <div className='selector__container'>
+                  {product.images.map((image) => (
+                    <div
+                      className='image__selector'
+                      key={image.id}
+                      onClick={() => {
+                        setDisplayImg(image.url);
+                        setPreviewImgClicked(true);
+                      }}
+                      onMouseEnter={() => {
+                        setPrevImg(displayImg);
+                        setDisplayImg(image.url);
+                      }}
+                      onMouseLeave={() => {
+                        if (!previewImgClicked) {
+                          setPrevImg('');
+                          setDisplayImg(prevImg);
+                        } else {
+                          setPreviewImgClicked(false);
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className='single-product__description'>
+                  {product.description}
+                </div>
               </div>
-              <div className='single-product__description'>
-                {product.description}
-              </div>
-              <AddReviewModal
-                productId={product.id}
-                setReviews={setReviews}
-              />
-              <div className='single-product__reviews'>
-                {reviews.map((review) => (
-                  <div key={review.id} className='user-review__container'>
-                    <div className='user-review__header'>
-                      <Rating
-                        initialRating={review.rating}
-                        emptySymbol={<IoPlanetOutline />}
-                        fullSymbol={<IoPlanetSharp />}
-                        readonly
-                      />
-                      <div>{review.user.username}</div>
-                      <EditReviewModal
-                        review={review}
-                        setReviews={setReviews}
-                      />
-                      <DeleteReviewModal
-                        review={review}
-                        setReviews={setReviews}
-                      />
-                    </div>
-                    <h3>{review.title}</h3>
-                    <div>{review.content}</div>
-                  </div>
-                ))}
+              <div className='product-details__right'>
+                <AddToCart product={product} />
               </div>
             </div>
-            <AddToCart product={product} />
-          </>
+            <AddReviewModal
+              productId={product.id}
+              isReviewed={isReviewed}
+              setIsReviewed={setIsReviewed}
+              setReviews={setReviews}
+            />
+            <div className='single-product__reviews'>
+              {reviews.map((review) => (
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  setReviews={setReviews}
+                  setIsReviewed={setIsReviewed}
+                />
+              ))}
+            </div>
+          </div>
         }
       </div>
     </>

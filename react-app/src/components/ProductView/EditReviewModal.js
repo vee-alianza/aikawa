@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import { AiFillRobot, AiOutlineRobot } from 'react-icons/ai';
+import { HiPencilAlt } from 'react-icons/hi';
 import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from 'react-rating';
@@ -60,9 +60,10 @@ const EditReviewModal = ({ review, setReviews }) => {
       {user && user.id === review.user.id &&
         <div>
           <button
+            className='edit-review__edit-btn'
             onClick={() => setShowModal(true)}
           >
-            Edit
+            <HiPencilAlt />
           </button>
           {showModal &&
             <Modal onClose={() => setShowModal(false)}>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Modal } from '../../context/Modal';
 
 const EditAddressModal = (props) => {
@@ -12,7 +11,6 @@ const EditAddressModal = (props) => {
     zip, setZip,
     country, setCountry
   } = props;
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = () => {

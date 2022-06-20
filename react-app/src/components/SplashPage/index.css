@@ -1,6 +1,10 @@
 .splashpage__container {
     position: relative;
-    background-color: white;
+    /* background-color: white; */
+    background-image: url('https://user-images.githubusercontent.com/92604480/174513101-65c69608-408e-41a2-9dfb-a5add8c8325d.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     width: 100%;
     overflow-x: hidden;
     display: flex;
@@ -27,7 +31,7 @@
     max-width: 1312px;
     width: calc(100% - 128px);
     height: 100%;
-    background-color: white;
+    /* background-color: white; */
     overflow-y: hidden;
 }
 

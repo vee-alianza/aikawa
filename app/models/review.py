@@ -1,3 +1,4 @@
+from datetime import datetime
 from .db import db
 
 
@@ -10,6 +11,8 @@ class Review(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    created_at = db.Column(db.DateTime, default=datetime.now())
+    updated_at = db.Column(db.DateTime, default=datetime.now())
 
     # implicit association
     # => user
@@ -23,5 +26,7 @@ class Review(db.Model):
             'content': self.content,
             'rating': self.rating,
             'user': self.user.to_dict(),
-            'product_id': self.product_id
+            'product_id': self.product_id,
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
         }

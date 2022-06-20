@@ -11,12 +11,17 @@ const errorClassname = {
   content: 'hide'
 };
 
-const AddReviewModal = ({ productId, setReviews }) => {
+const AddReviewModal = (props) => {
+  const {
+    productId,
+    isReviewed,
+    setIsReviewed,
+    setReviews
+  } = props;
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const hasUserReview = useSelector(state => state.products.hasUserReview);
   const [showModal, setShowModal] = useState(false);
-  const [isReviewed, setIsReviewed] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(1);
@@ -26,7 +31,7 @@ const AddReviewModal = ({ productId, setReviews }) => {
     if (hasUserReview !== null) {
       setIsReviewed(hasUserReview);
     }
-  }, [hasUserReview]);
+  }, [setIsReviewed, hasUserReview]);
 
   const handleSubmit = async () => {
     const data = await dispatch(addUserReview({ productId, title, content, rating }));

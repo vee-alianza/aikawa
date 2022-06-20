@@ -57,6 +57,7 @@ class Product(db.Model):
             'productId': self.id,
             'title': self.title,
             'price': self.price,
+            'basePrice': self.price,
             'description': self.description,
             'image': self.images[0].to_dict()['url'],
             'quantity': 1

@@ -79,10 +79,11 @@ const ShoppingCart = () => {
     clearTimeout(delayedUpdate[productId]);
     delayedUpdate[productId] = setTimeout(() => {
       dispatch(updateCartItemQty(productId, value));
-    }, 1000);
+    }, 500);
   };
 
   const removeItemInCart = async (productId) => {
+    clearTimeout(delayedUpdate[productId]);
     const success = await dispatch(removeCartProductThunk(productId));
     if (success) {
       setCartItems(prev => {

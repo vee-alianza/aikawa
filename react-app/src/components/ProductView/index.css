@@ -1,5 +1,19 @@
 .single-product-view__container {
   display: flex;
+  margin: 0 1rem;
+  margin-top: 1rem;
+}
+
+.single-product-details__container {
+  display: flex;
+}
+
+.product-details__left {
+  margin-right: 1rem;
+}
+
+.product-details__right {
+  margin-left: 1rem;
 }
 
 .single-product__image {
@@ -25,6 +39,13 @@
   background-color: grey;
 }
 
+.single-product__description {
+  margin-top: 1rem;
+  font-weight: 500;
+  font-style: italic;
+  width: 45rem;
+}
+
 .single-product__reviews {
   display: flex;
   flex-direction: column;
@@ -32,23 +53,57 @@
 
 .user-review__container {
   border-bottom: 0.1rem solid grey;
-  margin: 1rem 0;
+  margin: 1rem 1rem;
+  margin-top: 2rem;
+  width: 40rem;
+  word-wrap: break-word;
 }
 
-.user-review__header {
-  display: flex;
-}
-
-/* ----------------- */
-
-.add-to-cart__header {
+.user-rating__header-btns {
   display: flex;
   justify-content: space-between;
-  width: 30rem;
 }
 
-.add-to-cart__button {
+.user-rating__edit-delete-btns {
+  display: flex;
+}
+
+.user-rating__edit-delete-btns>div {
+  margin: 0 0.5rem;
+  border: none;
+}
+
+.edit-review__edit-btn,
+.delete-review__delete-btn {
+  height: 2rem;
+  border: none;
+  background: none;
+}
+
+:is(.edit-review__edit-btn, .delete-review__delete-btn):hover {
   cursor: pointer;
+  background-color: rgb(219, 219, 219);
+}
+
+.user-rating__header {
+  display: flex;
+}
+
+.user-review__title {
+  margin-top: -0.12rem;
+  margin-left: 1.4rem;
+  font-weight: 500;
+}
+
+.user-review__username {
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-review__created-at {
+  color: gray;
+  margin-bottom: 1rem;
 }
 
 /* ----EDIT / ADD FORM MODALS---- */

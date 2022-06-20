@@ -133,7 +133,10 @@ def remove_order_item(order_item_id):
     """
     Removes an order item
     """
-    order_item = current_user.pending.ordered_items.filter(Product_Order.id == order_item_id).first()
+    for item in current_user.orders.all():
+        for ordered_item in item.ordered_items.all():
+            if ordered_item.id == order_item_id:
+                order_item = ordered_item
     db.session.delete(order_item)
     db.session.commit()
 

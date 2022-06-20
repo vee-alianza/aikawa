@@ -142,7 +142,12 @@ const OrderSummary = () => {
     clearTimeout(delayedUpdate[orderItemId]);
     const success = await dispatch(removeOrderItem(orderItemId));
     if (success) {
-      if (orderItems.length === 1) return history.push('/products');
+      if (orderItems.length === 1) {
+        const success = await dispatch(cancelUserOrder(order.id));
+        if (success) {
+          history.push('/products');
+        }
+      }
 
       let total = 0;
       setOrderItems(prev => prev.filter((item) => item.id !== orderItemId));

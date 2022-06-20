@@ -18,13 +18,6 @@ const createOrder = (order) => {
     };
 };
 
-const removeOrder = (id) => {
-    return {
-        type: REMOVE_ORDER,
-        payload: id
-    };
-};
-
 
 export const getOrderDetailsThunk = (id) => async (dispatch) => {
     const response = await fetch(`/api/orders/${id}`);

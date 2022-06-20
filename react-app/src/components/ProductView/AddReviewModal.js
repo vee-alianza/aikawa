@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
-import Rating from "react-rating";
 import { Modal } from "../../context/Modal";
 import { addUserReview } from "../../store/reviews";
-
-const errorClassname = {
-  title: 'hide',
-  content: 'hide'
-};
+import ReviewForm from "./ReviewForm";
 
 const AddReviewModal = (props) => {
   const {
@@ -24,7 +18,7 @@ const AddReviewModal = (props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(1);
-  const [error, setErrors] = useState(errorClassname);
+  const [errors, setErrors] = useState({ title: '', content: '', rating: '' });
 
   useEffect(() => {
     if (hasUserReview !== null) {
@@ -45,11 +39,15 @@ const AddReviewModal = (props) => {
       setIsReviewed(true);
     } else if (data.errors) {
       data.errors.forEach((error) => {
-        if (error.includes('Title')) {
-          setErrors((prev) => ({ ...prev, title: '' }));
+        const errMsg = error.split(':')[1].trim();
+        if (error.includes('title')) {
+          setErrors((prev) => ({ ...prev, title: errMsg }));
         }
-        if (error.includes('Content')) {
-          setErrors((prev) => ({ ...prev, content: '' }));
+        if (error.includes('content')) {
+          setErrors((prev) => ({ ...prev, content: errMsg }));
+        }
+        if (error.includes('rating')) {
+          setErrors((prev) => ({ ...prev, rating: errMsg }));
         }
       });
     }
@@ -60,62 +58,25 @@ const AddReviewModal = (props) => {
       {user && !isReviewed &&
         <div>
           <button
+            className='add-review__btn'
             onClick={() => setShowModal(true)}
           >
-            Add review
+            Add your review
           </button>
           {showModal &&
             <Modal onClose={() => setShowModal(false)}>
-              <div className='add-review-form__container'>
-                <div className='add-review-title__container'>
-                  <div>
-                    Title:
-                    <span className={`add-review__errors ${error.title}`}>Title required!</span>
-                  </div>
-                  <input
-                    value={title}
-                    onChange={(e) => {
-                      if (!error.title) {
-                        setErrors((prev) => ({ ...prev, title: 'hide' }));
-                      }
-                      setTitle(e.target.value);
-                    }}
-                  />
-                </div>
-                <div>
-                  <div>
-                    Review:
-                    <span className={`add-review__errors ${error.content}`}>Review required!</span>
-                  </div>
-                  <textarea
-                    value={content}
-                    onChange={(e) => {
-                      if (!error.content) {
-                        setErrors((prev) => ({ ...prev, content: 'hide' }));
-                      }
-                      setContent(e.target.value);
-                    }}
-                  />
-                </div>
-                <Rating
-                  initialRating={rating}
-                  emptySymbol={<IoPlanetOutline />}
-                  fullSymbol={<IoPlanetSharp />}
-                  onChange={(value) => setRating(value)}
-                />
-                <div className='add-review-buttons__container'>
-                  <button
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                  <button
-                    onClick={() => setShowModal(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
+              <ReviewForm
+                title={title}
+                setTitle={setTitle}
+                content={content}
+                setContent={setContent}
+                rating={rating}
+                setRating={setRating}
+                handleSubmit={handleSubmit}
+                setShowModal={setShowModal}
+                errors={errors}
+                setErrors={setErrors}
+              />
             </Modal>
           }
         </div>

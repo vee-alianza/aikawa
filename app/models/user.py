@@ -13,11 +13,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    address = db.Column(db.String)
-    city = db.Column(db.String)
-    state = db.Column(db.String)
-    zip_code = db.Column(db.Integer)
-    country = db.Column(db.String)
+    address = db.Column(db.String(255))
+    city = db.Column(db.String(255))
+    state = db.Column(db.String(2))
+    zip_code = db.Column(db.String(5))
+    country = db.Column(db.String(50))
 
 
     orders = db.relationship('Order', backref='user', cascade='all, delete', lazy='dynamic')

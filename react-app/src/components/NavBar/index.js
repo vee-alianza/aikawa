@@ -11,13 +11,15 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const dropdownContainer = useRef();
   const user = useSelector(state => state.session.user);
-  const [activeClass, setActiveClass] = useState({ home: 'active', products: '' });
+  const [activeClass, setActiveClass] = useState({ home: 'active', products: '', orders: '' });
   const [dropdown, setDropdown] = useState(false);
   const [dispNavbar, setDispNavbar] = useState(true);
+  const [logoClass, setLogoClass] = useState('');
 
   useEffect(() => {
     if (currentLocation.pathname === '/') {
       setDispNavbar(false);
+      setLogoClass('lift');
     } else {
       if (currentLocation.pathname.includes('home')) {
         setActiveClass({ home: 'active', products: '' });
@@ -32,6 +34,7 @@ const NavBar = () => {
         setActiveClass({ home: '', products: '' });
       }
       setDispNavbar(true);
+      setLogoClass('');
     }
 
   }, [currentLocation.pathname]);
@@ -57,10 +60,12 @@ const NavBar = () => {
   };
 
   return (
-    <nav className='navbar__container'>
+    <nav className={`navbar__container ${logoClass}`}>
       <div className='navbar__logo'>
         <img src='https://user-images.githubusercontent.com/92604480/174006897-c3e8cf74-4c4a-4ed9-8080-039238d4bf18.png' alt='' />
-        <p>AIKAWA</p>
+        <p className={`${logoClass}`}>
+          AIKAWA
+        </p>
       </div>
       {dispNavbar &&
         <ul className='navbar__navigation'>
@@ -82,6 +87,17 @@ const NavBar = () => {
               Products
             </button>
           </li>
+          {user &&
+            <li>
+              <button
+                id='navbar-orders'
+                className={activeClass.orders}
+                onClick={handleNavigate}
+              >
+                Orders
+              </button>
+            </li>
+          }
           <li style={{ float: 'right' }}>
             <button
               ref={dropdownContainer}

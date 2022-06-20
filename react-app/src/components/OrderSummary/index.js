@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { QuantityPicker } from 'react-qty-picker';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getOrderDetailsThunk, updateOrderItemQty, removeOrderItem } from '../../store/orders';
@@ -7,6 +8,15 @@ import EditAddressModal from './EditAddressModal';
 import './index.css';
 
 let delayedUpdate = {};
+const initShippingAddress = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  state: '',
+  zip: '',
+  country: ''
+};
 
 const OrderSummary = () => {
   const { orderId } = useParams();
@@ -18,18 +28,15 @@ const OrderSummary = () => {
   const shippingDetails = useSelector(state => state.session.shippingDetails);
   const [orderItems, setOrderItems] = useState([]);
   const [orderTotal, setOrderTotal] = useState(0);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zip, setZip] = useState('');
-  const [country, setCountry] = useState('');
+  const [shippingAddress, setShippingAddress] = useState({ ...initShippingAddress });
 
   useEffect(() => {
-    if (!order) {
-      dispatch(getOrderDetailsThunk(orderId));
-    } else {
+    dispatch(getOrderDetailsThunk(orderId));
+    return () => delayedUpdate = {};
+  }, [dispatch, orderId]);
+
+  useEffect(() => {
+    if (order) {
       let totalPrice = 0;
 
       for (let i = 0; i < order.ordered_items.length; i++) {
@@ -39,19 +46,31 @@ const OrderSummary = () => {
       setOrderItems(order.ordered_items);
       setOrderTotal(totalPrice);
     }
-
-    return () => delayedUpdate = {};
-  }, [dispatch, order, orderId]);
+  }, [order]);
 
   useEffect(() => {
     if (shippingDetails) {
-      setFirstName(shippingDetails.firstName);
-      setLastName(shippingDetails.lastName);
-      setAddress(shippingDetails.address);
-      setCity(shippingDetails.city);
-      setState(shippingDetails.state);
-      setZip(shippingDetails.zip);
-      setCountry(shippingDetails.country);
+      if (shippingDetails.firstName) {
+        setShippingAddress((prev) => ({ ...prev, firstName: shippingDetails.firstName }));
+      }
+      if (shippingDetails.lastName) {
+        setShippingAddress((prev) => ({ ...prev, lastName: shippingDetails.lastName }));
+      }
+      if (shippingDetails.address) {
+        setShippingAddress((prev) => ({ ...prev, address: shippingDetails.address }));
+      }
+      if (shippingDetails.city) {
+        setShippingAddress((prev) => ({ ...prev, city: shippingDetails.city }));
+      }
+      if (shippingDetails.state) {
+        setShippingAddress((prev) => ({ ...prev, state: shippingDetails.state }));
+      }
+      if (shippingDetails.zip) {
+        setShippingAddress((prev) => ({ ...prev, zip: shippingDetails.zip }));
+      }
+      if (shippingDetails.country) {
+        setShippingAddress((prev) => ({ ...prev, country: shippingDetails.country }));
+      }
     }
   }, [shippingDetails]);
 
@@ -85,10 +104,11 @@ const OrderSummary = () => {
     clearTimeout(delayedUpdate[orderItemId]);
     delayedUpdate[orderItemId] = setTimeout(() => {
       dispatch(updateOrderItemQty(orderItemId, value));
-    }, 1000);
+    }, 500);
   };
 
   const handleRemoveOrderItem = async (orderItemId) => {
+    clearTimeout(delayedUpdate[orderItemId]);
     const success = await dispatch(removeOrderItem(orderItemId));
     if (success) {
       if (orderItems.length === 1) return history.push('/products');
@@ -110,55 +130,89 @@ const OrderSummary = () => {
     <div className='order-details__container'>
       <h1>Order details:</h1>
       {order &&
-        <>
-          <h2>{`Status: ${order.status}`}</h2>
-          <h3>Items:</h3>
-          {orderItems.map((item) => (
-            <div key={item.id} className='order-item__container'>
-              <img src={item.image} alt={item.title} />
-              <div>{item.title}</div>
-              <div>{item.description}</div>
-              <QuantityPicker
-                min={1}
-                max={99}
-                value={item.quantity}
-                onChange={(value) => handleQtyChange(value, item.title, item.id)}
-              />
-              <button
-                onClick={() => handleRemoveOrderItem(item.id)}
+        <div>
+          <div className='order-details__left'>
+            <h2>{`Status: ${order.status}`}</h2>
+            <h3>Items:</h3>
+            {orderItems.map((item) => (
+              <div
+                key={item.id}
+                className='order-item__container'
+                onClick={(e) => {
+                  if (e.target.className === 'order-item__container' || !e.target.className) {
+                    history.push(`/products/${item.productId}`);
+                  }
+                }}
               >
-                Remove item
-              </button>
-              <div>{`${toUSD.format(item.totalPrice)}`}</div>
-            </div>
-          ))}
-          <h2>{`Total: ${toUSD.format(orderTotal)}`}</h2>
-          <div className='order-details__shipping-info'>
-            <h3>Ship to:</h3>
-            <div>{`${firstName} ${lastName}`}</div>
-            <div>{`${address}, ${city}`}</div>
-            <div>{`${state} ${zip}`}</div>
-            <div>{country}</div>
-            <div>
-              <EditAddressModal
-                firstName={firstName}
-                lastName={lastName}
-                address={address}
-                city={city}
-                state={state}
-                zip={zip}
-                country={country}
-                setFirstName={setFirstName}
-                setLastName={setLastName}
-                setAddress={setAddress}
-                setCity={setCity}
-                setState={setState}
-                setZip={setZip}
-                setCountry={setCountry}
-              />
+                <div>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    onClick={() => history.push(`/products/${item.productId}`)}
+                  />
+                  <div>
+                    <div>{`${toUSD.format(item.totalPrice)}`}</div>
+                    <div>
+                      <QuantityPicker
+                        className='order-item__qty-picker'
+                        min={1}
+                        max={99}
+                        value={item.quantity}
+                        onChange={(value) => handleQtyChange(value, item.title, item.id)}
+                      />
+                      <button
+                        className='order-item__delete-btn'
+                        onClick={() => handleRemoveOrderItem(item.id)}
+                      >
+                        <FaRegTrashAlt />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className='order-item__item-title'
+                  onClick={() => history.push(`/products/${item.productId}`)}
+                >
+                  {item.title}
+                </div>
+                <div
+                  className='order-item__item-description'
+                  onClick={() => history.push(`/products/${item.productId}`)}
+                >
+                  {item.description}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className='order-details__right'>
+            <h2>{`Total: ${toUSD.format(orderTotal)}`}</h2>
+            <div className='order-details__shipping-info'>
+              <h3>Ship to:</h3>
+              <div>
+                <div>
+                  <div>{`${shippingAddress.firstName} ${shippingAddress.lastName}`}</div>
+                  {shippingAddress.address && shippingAddress.city &&
+                    <div>{`${shippingAddress.address}, ${shippingAddress.city}`}</div>
+                  }
+                  {shippingAddress.address && !shippingAddress.city &&
+                    <div>{`${shippingAddress.address}`}</div>
+                  }
+                  {!shippingAddress.address && shippingAddress.city &&
+                    <div>{`${shippingAddress.address}`}</div>
+                  }
+                  <div>{`${shippingAddress.state} ${shippingAddress.zip}`}</div>
+                  <div>{shippingAddress.country}</div>
+                </div>
+                <EditAddressModal
+                  shippingAddress={shippingAddress}
+                  setShippingAddress={setShippingAddress}
+                />
+                <div>
+                </div>
+              </div>
             </div>
           </div>
-        </>
+        </div>
       }
     </div>
   );

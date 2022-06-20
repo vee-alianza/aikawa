@@ -78,6 +78,7 @@
   height: 2rem;
   border: none;
   background: none;
+  font-size: 1.5rem;
 }
 
 :is(.edit-review__edit-btn, .delete-review__delete-btn):hover {
@@ -106,42 +107,84 @@
   margin-bottom: 1rem;
 }
 
-/* ----EDIT / ADD FORM MODALS---- */
-.edit-review-form__container,
-.add-review-form__container {
+.add-review__btn {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  padding: 1rem;
+  font-size: 1.3rem;
+}
+
+.review-form__container {
   height: 30rem;
   width: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  font-size: 1.4rem;
 }
 
-.edit-review__errors,
-.add-review__errors {
+.review-form-title__input {
+  width: 20rem;
+  height: 2rem;
+}
+
+.review-form-content__input {
+  width: 20rem;
+  height: 10rem;
+}
+
+.review-form__rating-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 4.8rem;
+}
+
+.review-form__rating-subcontainer {
+  display: flex;
+  font-size: 1.4rem;
+}
+
+.review-form__rating-subcontainer>div {
+  margin-top: -0.2rem;
+  margin-right: 1rem;
+}
+
+.review-buttons__container>button {
+  margin: 0 1rem;
+  width: 6rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.review-form__error-msg {
   color: red;
-  margin-left: 0.5rem;
+  font-size: 1rem;
 }
 
-:is(.edit-review__errors, .add-review__errors).hide {
-  display: none;
-}
-
-/* ----DELETE REVIEW MODAL---- */
 .delete-review__header {
   text-align: center;
-  margin-top: 1rem;
+  margin: 2rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .delete-review-buttons__container {
   height: 8rem;
-  width: 15rem;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .delete-review-buttons__container>button {
-  width: 4rem;
-  height: 2rem;
+  font-size: 1.5rem;
+  width: 5rem;
+  height: 3rem;
+  margin: 0 3rem;
+  cursor: pointer;
 }

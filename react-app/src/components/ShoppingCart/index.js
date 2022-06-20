@@ -160,7 +160,7 @@ const ShoppingCart = () => {
             }
           </div>
           <div className='checkout-details__container'>
-            <h2>Order summary:</h2>
+            <h2>Order Summary:</h2>
             <div className='order-total__container'>
               <div>Total:</div>
               <h2>{`${toUSD.format(cartTotal)}`}</h2>

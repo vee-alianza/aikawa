@@ -30,6 +30,18 @@ export const getOrderDetailsThunk = (id) => async (dispatch) => {
     }
 };
 
+export const updateShippingAddress = (shippingAddress) => async (dispatch) => {
+    const response = await fetch('/api/orders/address', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ shippingAddress })
+    });
+    const data = await response.json();
+    return data;
+};
+
 export const updateOrderItemQty = (orderItemId, quantity) => async (dispatch) => {
     const response = await fetch(`/api/orders/${orderItemId}`, {
         method: 'PATCH',

@@ -1,33 +1,71 @@
+import re
 from flask import Blueprint, request, session
-from app.models import db, Order, Product_Order
+from app.models import db, Order, Product_Order, User
 from flask_login import current_user, login_required, user_logged_in
 # from app.forms.order_form import OrderForm
 
 order_routes = Blueprint('orders', __name__)
 
-def validation_errors_to_error_messages(validation_errors):
-    """
-    Simple function that turns the WTForms validation errors into a simple list
-    """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field} : {error}')
-    return errorMessages
+zip_code_validator = r"^[0-9]{5}?$"
+state_validator = r"^[a-zA-Z]+$"
 
 @order_routes.route('/')
 @login_required
 def all_orders():
+    pass
+
+
+@order_routes.route('/address', methods=['PATCH'])
+@login_required
+def update_shipping_address():
     """
-    testing
+    Update user's shipping address
     """
-    test = Order.query.order_by(Order.id.desc()).first().id
-    print()
-    print()
-    print(test)
-    print()
-    print()
-    return {'test': test}
+    errors = []
+    new_shipping_address = request.json['shippingAddress']
+    user = User.query.get(current_user.id)
+
+    if len(new_shipping_address['firstName'].strip()) < 3:
+        errors.append('firstName : First name must be 3 characters or more.')
+    if len(new_shipping_address['firstName'].strip()) > 50:
+        errors.append('firstName : First name must be 50 characters or less.')
+    if len(new_shipping_address['lastName'].strip()) < 3:
+        errors.append('lastName : Last name must be 3 characters or more.')
+    if (len(new_shipping_address['lastName'].strip())) > 50:
+        errors.append('lastName : Last name must be 50 characters or less.')
+    if len(new_shipping_address['address'].strip()) < 3:
+        errors.append('address : Address must be 3 characters or more.')
+    if (len(new_shipping_address['address'].strip())) > 255:
+        errors.append('address : Address must be 255 characters or less.')
+    if len(new_shipping_address['city'].strip()) < 3:
+        errors.append('city : City must be 3 characters or more.')
+    if (len(new_shipping_address['city'].strip())) > 255:
+        errors.append('city : City must be 255 characters or less.')
+    if len(new_shipping_address['state'].strip()) != 2:
+        errors.append('state : State must be 2 characters.')
+    elif not re.match(state_validator, new_shipping_address['state'].strip()):
+        errors.append('state : Invalid state.')
+    if (len(new_shipping_address['zip'].strip())) != 5:
+        errors.append('zip : Zip code must be 5 characters.')
+    elif not re.match(zip_code_validator, new_shipping_address['zip'].strip()):
+        errors.append('zip : Invalid zip code.')
+    if len(new_shipping_address['country'].strip()) < 2:
+        errors.append('country : Country must be 2 characters or more.')
+    if (len(new_shipping_address['country'].strip())) > 50:
+        errors.append('country : Country must be 50 characters or less.')
+    if len(errors) > 0:
+        return {'errorMsgs': errors}, 400
+
+    user.first_name = new_shipping_address['firstName'].strip()
+    user.last_name = new_shipping_address['lastName'].strip()
+    user.address = new_shipping_address['address'].strip()
+    user.city = new_shipping_address['city'].strip()
+    user.state = new_shipping_address['state'].strip()
+    user.zip_code = new_shipping_address['zip'].strip()
+    user.country = new_shipping_address['country'].strip()
+    db.session.commit()
+
+    return {'success': True}
 
 
 @order_routes.route('/<int:order_id>')

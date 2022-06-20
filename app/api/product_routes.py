@@ -121,7 +121,7 @@ def checkout_user_cart():
 
     for item in cart_items:
         product = Product.query.get(item['productId'])
-        order_total += product.price * float(item['quantity'])
+        order_total += product.price * int(item['quantity'])
 
     new_order = Order(
         status = 'Pending',

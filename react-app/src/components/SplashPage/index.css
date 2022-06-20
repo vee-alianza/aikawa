@@ -1,138 +1,73 @@
 .splashpage__container {
-    /* display: grid; */
-    /* position: relative; */
-    /* background-color: white; */
-    background-image: url('https://user-images.githubusercontent.com/92604480/174513101-65c69608-408e-41a2-9dfb-a5add8c8325d.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    /* width: 100%;
-    overflow-x: hidden;
-    display: flex;
-    justify-content: center; */
-}
-
-.splash__login__btn {
-    width: 10rem;
-    height: 2.5rem;
-    border: none;
-    border-radius: 0.8rem;
-    background-color: #fa4c6f;
-    color: white;
-    font-family: "Sansita";
-    font-size: 1.3rem;
-    font-weight: bold;
-    flex-direction: row;
-    margin: 1rem;
-
-}
-
-
-
-.splash-login__btn,
-.splash-signup__btn {
-
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    color: #fff;
-    font-size: 24px;
-    text-transform: uppercase;
-    font-family: sans-serif;
-    box-sizing: border-box;
-    background: linear-gradient(90deg, yellow, orange, red, violet, purple, blue, yellow);
-    background-size: 400%;
-    border-radius: 30px;
-    z-index: 1;
-}
-
-.splash-login__btn:hover,
-.splash-signup__btn {
-    animation: animate 8s linear infinite;
-}
-
-@keyframes animate {
-    0% {
-        background-position: 0%;
-    }
-
-    100% {
-        background-position: 400%;
-    }
-}
-
-.splash-login__btn:before,
-.splash-signup__btn:before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-    background: linear-gradient(45deg, #f15523, #ef3224, #7c3697);
-    background-size: 400%;
-    border-radius: 40px;
-    opacity: 0;
-    transition: 0.5%;
-}
-
-.splash-login__btn:hover:before,
-.splash-signup__btn:hover:before {
-    filter: blur(20px);
-    opacity: 1;
-    animation: animate 8s linear infinite;
-}
-
-
-
-.splash__title {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    overflow-y: hidden;
-    position: relative;
-    top: 78px;
-
-}
-
-.splash__title h1 {
-    font-size: 4rem;
-}
-
-.splash__title p {
-    font-size: 1.3rem;
+    background: url("https://user-images.githubusercontent.com/92604480/174513101-65c69608-408e-41a2-9dfb-a5add8c8325d.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.splashpage__top {
+    display: flex;
+    flex-direction: column;
+}
+
+.splash-btn__container {
+    margin-top: 8rem;
+    margin-right: 10rem;
+    align-self: flex-end;
+}
+
+.splash-btn__container>button,
+.splash-shopping__btn {
+    background: none;
+    color: white;
+    border: 0.2rem solid white;
+    margin: 0 1rem;
+    width: 10rem;
+    height: 4rem;
+    font-size: 2rem;
+}
+
+.splash-btn__container>button:hover,
+.splash-shopping__btn:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.267);
 }
 
 .splash__image-display-1 {
-    position: relative;
-    max-width: 1312px;
-    width: calc(100% - 128px);
-    height: 100%;
-    overflow-y: hidden;
-}
-
-.splash__image-display-1 img {
-    width: 30rem;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
+    flex-direction: column;
+    align-items: center;
 }
 
-.splash__image-display-3 h2 {
+.splash__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splash__title>h1 {
+    font-size: 5rem;
+    color: hsl(288deg 99% 55%);
+    -webkit-text-stroke: 0.1rem black;
+}
+
+.splash__title>p {
     font-size: 2rem;
-
+    font-weight: 700;
+    color: white;
+    -webkit-text-stroke: 0.05rem black;
 }
 
+.splash__image-display-3 {
+    color: rgba(255, 255, 255, 0.658);
+}
 
-.splash__image-display-3 p {
-    font-size: 1.3rem;
-
+.splash-shopping__btn {
+    width: 15rem;
+    height: 5rem;
 }

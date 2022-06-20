@@ -16,7 +16,7 @@ def seed_users():
             address=fake_profile_1['address'].split('\n')[0],
             city=fake_profile_1['address'].split('\n')[1].split(',')[0],
             state=fake_profile_1['address'].split(' ')[-2],
-            zip_code=int(fake_profile_1['address'].split(' ')[-1]),
+            zip_code=fake_profile_1['address'].split(' ')[-1],
             country='US'
         )
 
@@ -30,7 +30,7 @@ def seed_users():
             address=fake_profile_2['address'].split('\n')[0],
             city=fake_profile_2['address'].split('\n')[1].split(',')[0],
             state=fake_profile_2['address'].split(' ')[-2],
-            zip_code=int(fake_profile_2['address'].split(' ')[-1]),
+            zip_code=fake_profile_2['address'].split(' ')[-1],
             country='US'
         )
 
@@ -44,7 +44,7 @@ def seed_users():
             address=fake_profile_3['address'].split('\n')[0],
             city=fake_profile_3['address'].split('\n')[1].split(',')[0],
             state=fake_profile_3['address'].split(' ')[-2],
-            zip_code=int(fake_profile_3['address'].split(' ')[-1]),
+            zip_code=fake_profile_3['address'].split(' ')[-1],
             country='US'
         )
 
@@ -63,7 +63,7 @@ def seed_users():
             address=fake_profile['address'].split('\n')[0],
             city=fake_profile['address'].split('\n')[1].split(',')[0],
             state=fake_profile['address'].split(' ')[-2],
-            zip_code=int(fake_profile['address'].split(' ')[-1]),
+            zip_code=fake_profile['address'].split(' ')[-1],
             country='US'
         ))
 

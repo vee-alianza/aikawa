@@ -32,7 +32,7 @@ const ProductsPage = () => {
   };
 
   return (
-    <>
+    <div className='main-products__page'>
       <h1>Product Page</h1>
       <div className='products__container'>
         <div className='product-details__container'>
@@ -73,7 +73,7 @@ const ProductsPage = () => {
           Load More
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

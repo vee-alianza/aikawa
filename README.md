@@ -93,11 +93,21 @@ Aikawa is an e-commerce app inspired by [Ikea](https://www.ikea.com/), where use
 | `heroku run -a <app name>`     | Run a command from within the deployed container on Heroku                                                                                   |
 
 ## Features
-With our application, you can:
+With this application, you can:
 
 * create orders and add items to your cart
-* review orders out for delivery
-* post reviews on selected products
-* rating products
+* post reviews on products
+* rate products
+* view previous orders
+
+### Authentication
+### Homepage
+
+### Products
+
+### Add to Cart
+### Reviews
+
+### Order History
 
 [Back to top](#top)

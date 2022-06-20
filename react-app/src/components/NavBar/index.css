@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.navbar__container.lift {
+    position: absolute;
+}
+
+p.lift {
+    color: white;
+}
+
 .navbar__container img {
     width: 10rem;
 }

@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, request, render_template, session
 from flask_login import login_required, current_user
 from app.models import db, Review, Product
@@ -27,16 +28,16 @@ def add_user_review():
     """
     errors = []
     new_review_data = request.json['review']
-    if new_review_data['title'].strip() == '':
-        errors.append('Title required.')
+    if len(new_review_data['title']) < 5:
+        errors.append('title : Title must be 5 characters or more.')
     if len(new_review_data['title']) > 100:
-        errors.append('Title must be fewer than 100 characters.')
-    if new_review_data['content'].strip() == '':
-        errors.append('Content required')
+        errors.append('title : Title must be fewer than 100 characters.')
+    if len(new_review_data['content']) < 5:
+        errors.append('content : Review must be 5 characters or more.')
     if len(new_review_data['content']) > 300:
-        errors.append('Review must be less than 300 characters.')
+        errors.append('content : Review must be less than 300 characters.')
     if 5 < new_review_data['rating'] < 1:
-        errors.append('Invalid rating.')
+        errors.append('rating : Invalid rating.')
     if len(errors) > 0:
         return {'errors': errors}, 400
     review = Review(
@@ -44,7 +45,8 @@ def add_user_review():
         content = new_review_data['content'],
         rating = new_review_data['rating'],
         user_id = current_user.id,
-        product_id = new_review_data['productId']
+        product_id = new_review_data['productId'],
+        created_at = datetime.now()
     )
     db.session.add(review)
     db.session.commit()
@@ -60,22 +62,23 @@ def update_user_review(review_id):
     """
     errors = []
     new_review_data = request.json['review']
-    if new_review_data['title'].strip() == '':
-        errors.append('Title required.')
+    if len(new_review_data['title']) < 5:
+        errors.append('title : Title must be 5 characters or more.')
     if len(new_review_data['title']) > 100:
-        errors.append('Title must be fewer than 100 characters.')
-    if new_review_data['content'].strip() == '':
-        errors.append('Content required')
+        errors.append('title : Title must be fewer than 100 characters.')
+    if len(new_review_data['content']) < 5:
+        errors.append('content : Review must be 5 characters or more.')
     if len(new_review_data['content']) > 300:
-        errors.append('Review must be less than 300 characters.')
+        errors.append('content : Review must be less than 300 characters.')
     if 5 < new_review_data['rating'] < 1:
-        errors.append('Invalid rating.')
+        errors.append('rating : Invalid rating.')
     if len(errors) > 0:
         return {'errors': errors}, 400
     review = current_user.reviews.filter(Review.id == review_id).first()
     review.title = new_review_data['title']
     review.content = new_review_data['content']
     review.rating = new_review_data['rating']
+    review.updated_at = datetime.now()
     db.session.commit()
     return {'success': True}
 

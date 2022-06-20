@@ -4,8 +4,8 @@ import './Footer.css'
 
 const Footer = () => {
     return (
-        <>
-            <div className='footer__container'>
+        <div className='footer__container'>
+            <div className='footer__tech'>
                 <p>Python</p>
                 <p>Flask</p>
                 <p>SQLAlchemy</p>
@@ -23,7 +23,7 @@ const Footer = () => {
                     <FaLinkedin size={25} />
                 </a>
             </div>
-        </>
+        </div>
     )
 }
 

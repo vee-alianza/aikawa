@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authenticate } from './store/session';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
@@ -15,13 +15,9 @@ import ShoppingCart from './components/ShoppingCart';
 import OrderSummary from './components/OrderSummary';
 import NavBar from './components/NavBar';
 
-// import LoadingPage from './components/LoadingPage';
-
 function App() {
   const [loaded, setLoaded] = useState(false);
-  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
 
 
   useEffect(() => {
@@ -30,15 +26,6 @@ function App() {
       setLoaded(true);
     })();
   }, [dispatch]);
-
-
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 3000)
-  // }, [loaded]);
 
   if (!loaded) {
     return null;

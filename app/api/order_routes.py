@@ -12,7 +12,38 @@ state_validator = r"^[a-zA-Z]+$"
 @order_routes.route('/')
 @login_required
 def all_orders():
-    pass
+    user_orders = current_user.orders.all()
+    return {'orders': [order.to_dict() for order in reversed(user_orders)]}
+
+
+@order_routes.route('/cancel/<int:order_id>', methods=['DELETE'])
+@login_required
+def cancel_user_order(order_id):
+    """
+    Cancels a user's pending order
+    """
+    user_orders = current_user.orders.all()
+    for order in user_orders:
+        if (order_id == order.id):
+            db.session.delete(order)
+            db.session.commit()
+            return {'success': True}
+    return {'success': False}
+
+
+@order_routes.route('/<int:order_id>', methods=['PUT'])
+@login_required
+def submit_user_order(order_id):
+    """
+    Updates a user's pending order to delivered
+    """
+    user_orders = current_user.orders.all()
+    for order in user_orders:
+        if (order_id == order.id):
+            order.status = 'Delivered'
+            db.session.commit()
+            return {'success': True}
+    return {'success': False}
 
 
 @order_routes.route('/address', methods=['PATCH'])

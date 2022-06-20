@@ -14,6 +14,7 @@ import ProductView from './components/ProductView';
 import ShoppingCart from './components/ShoppingCart';
 import OrderSummary from './components/OrderSummary';
 import NavBar from './components/NavBar';
+import OrderHistory from './components/OrderHistory';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -66,6 +67,9 @@ function App() {
         </Route>
         <Route path='/ordersummary/:orderId' exact={true}>
           <OrderSummary />
+        </Route>
+        <Route path='/orderhistory' exact={true}>
+          <OrderHistory />
         </Route>
       </Switch>
     </BrowserRouter>

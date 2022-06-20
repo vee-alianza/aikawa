@@ -1,6 +1,7 @@
 import { getUserShippingDetails } from "./session";
 
 const GET_ORDER_DETAILS = 'order/GET_ORDER_DETAILS';
+const GET_ORDER_HISTORY = 'order/GET_ORDER_HISTORY';
 const CREATE_ORDER = "order/CREATE_ORDER";
 const REMOVE_ORDER = 'order/REMOVE_ORDER';
 
@@ -8,6 +9,13 @@ const getOrderDetails = (order) => {
     return {
         type: GET_ORDER_DETAILS,
         payload: order
+    }
+};
+
+const getOrderHistory = (orders) => {
+    return {
+        type: GET_ORDER_HISTORY,
+        payload: orders
     }
 };
 
@@ -30,6 +38,16 @@ export const getOrderDetailsThunk = (id) => async (dispatch) => {
     }
 };
 
+export const getOrderHistoryThunk = () => async (dispatch) => {
+    const response = await fetch('/api/orders/');
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getOrderHistory(data.orders));
+    } else {
+        console.error('Error fetching order history...');
+    }
+};
+
 export const updateShippingAddress = (shippingAddress) => async (dispatch) => {
     const response = await fetch('/api/orders/address', {
         method: 'PATCH',
@@ -40,6 +58,22 @@ export const updateShippingAddress = (shippingAddress) => async (dispatch) => {
     });
     const data = await response.json();
     return data;
+};
+
+export const submitUserOrder = (orderId) => async (dispatch) => {
+    const response = await fetch(`/api/orders/${orderId}`, {
+        method: 'PUT'
+    });
+    const data = await response.json();
+    return data.success;
+};
+
+export const cancelUserOrder = (orderId) => async (dispatch) => {
+    const response = await fetch(`/api/orders/cancel/${orderId}`, {
+        method: 'DELETE'
+    });
+    const data = await response.json();
+    return data.success;
 };
 
 export const updateOrderItemQty = (orderItemId, quantity) => async (dispatch) => {
@@ -89,6 +123,10 @@ const orderReducer = (state = initialState, action) => {
         case GET_ORDER_DETAILS:
             newState = Object.assign({}, state);
             newState.currentOrder = action.payload
+            return newState;
+        case GET_ORDER_HISTORY:
+            newState = Object.assign({}, state);
+            newState.allOrders = action.payload;
             return newState;
         case REMOVE_ORDER:
             newState = Object.assign({}, state);

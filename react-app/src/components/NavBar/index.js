@@ -26,12 +26,14 @@ const NavBar = () => {
       } else if (currentLocation.pathname.includes('products')) {
         const productId = currentLocation.pathname.split('/');
         if (!productId[2]) {
-          setActiveClass({ home: '', products: 'active' });
+          setActiveClass({ home: '', products: 'active', orders: '' });
         } else {
-          setActiveClass({ home: '', products: '' });
+          setActiveClass({ home: '', products: '', orders: '' });
         }
+      } else if (currentLocation.pathname === '/orderhistory') {
+        setActiveClass({ home: '', products: '', orders: 'active' });
       } else {
-        setActiveClass({ home: '', products: '' });
+        setActiveClass({ home: '', products: '', orders: '' });
       }
       setDispNavbar(true);
       setLogoClass('');
@@ -56,6 +58,8 @@ const NavBar = () => {
       }
     } else if (containerId.includes('shopping-cart') && !currentLocation.pathname.includes('shoppingcart')) {
       history.push('/shoppingcart');
+    } else if (containerId.includes('orders') && currentLocation.pathname !== '/orderhistory') {
+      history.push('/orderhistory');
     }
   };
 

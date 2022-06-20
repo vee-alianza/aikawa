@@ -14,7 +14,7 @@ const errorMsgs = {
   country: ''
 };
 
-const EditAddressModal = ({ shippingAddress, setShippingAddress }) => {
+const EditAddressModal = ({ shippingAddress, setShippingAddress, setMissingShipInfo }) => {
   const {
     firstName,
     lastName,
@@ -67,6 +67,7 @@ const EditAddressModal = ({ shippingAddress, setShippingAddress }) => {
     if (success) {
       setShippingAddress({ ...updatedAddress });
       setShowModal(false);
+      setMissingShipInfo(false);
     } else if (errorMsgs.length) {
       console.log(errorMsgs)
       errorMsgs.forEach((errorMsg) => {

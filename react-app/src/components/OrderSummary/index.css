@@ -74,6 +74,11 @@
   margin-right: 3rem;
 }
 
+.missing-shipping-info {
+  margin: 0;
+  color: red;
+}
+
 .order-item__container> :nth-child(1)>div>div:first-child {
   align-self: flex-end;
   margin-bottom: 0.5rem;
@@ -106,7 +111,7 @@
   font-size: 3rem;
 }
 
-.order-details__shipping-info>h3 {
+.order-details__shipping-info>div>h3 {
   font-size: 2rem;
   padding: 0;
   margin: 0;
@@ -116,7 +121,14 @@
 .order-details__shipping-info>div {
   font-size: 1.4rem;
   display: flex;
-  justify-content: space-between;
+}
+
+.edit-shipping-details {
+  display: flex;
+}
+
+.edit-shipping-details>div {
+  margin-left: 3rem;
 }
 
 .shipping-address__details-container>div>button {

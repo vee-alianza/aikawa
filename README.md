@@ -112,6 +112,7 @@ With this application, you can:
 ![Shopping Cart](https://user-images.githubusercontent.com/92604480/174603701-01e44d1d-1b97-40b8-acb8-af3d02929531.png)
 ### Reviews
 ![Reviews](https://user-images.githubusercontent.com/92604480/174603635-5105467d-c0b7-4003-ad16-4e1c22d3fc67.png).
-<!-- ### Order History -->
+### Order History
+![Order History](https://user-images.githubusercontent.com/92604480/174621931-aa12af4c-10e9-4855-b00a-f5a9f2186072.png)
 
 [Back to top](#top)

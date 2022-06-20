@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { QuantityPicker } from 'react-qty-picker';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { BsPencilSquare } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getOrderDetailsThunk, updateOrderItemQty, removeOrderItem, submitUserOrder, cancelUserOrder } from '../../store/orders';
@@ -29,6 +30,7 @@ const OrderSummary = () => {
   const [orderItems, setOrderItems] = useState([]);
   const [orderTotal, setOrderTotal] = useState(0);
   const [shippingAddress, setShippingAddress] = useState({ ...initShippingAddress });
+  const [missingShipInfo, setMissingShipInfo] = useState(true);
 
   useEffect(() => {
     dispatch(getOrderDetailsThunk(orderId));
@@ -49,28 +51,58 @@ const OrderSummary = () => {
   }, [order]);
 
   useEffect(() => {
+    console.log(shippingDetails)
     if (shippingDetails) {
+      let validFieldCount = 0;
       if (shippingDetails.firstName) {
         setShippingAddress((prev) => ({ ...prev, firstName: shippingDetails.firstName }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, firstName: '' }));
       }
       if (shippingDetails.lastName) {
         setShippingAddress((prev) => ({ ...prev, lastName: shippingDetails.lastName }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, lastName: '' }));
       }
       if (shippingDetails.address) {
         setShippingAddress((prev) => ({ ...prev, address: shippingDetails.address }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, address: '' }));
       }
       if (shippingDetails.city) {
         setShippingAddress((prev) => ({ ...prev, city: shippingDetails.city }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, city: '' }));
       }
       if (shippingDetails.state) {
         setShippingAddress((prev) => ({ ...prev, state: shippingDetails.state }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, state: '' }));
       }
       if (shippingDetails.zip) {
         setShippingAddress((prev) => ({ ...prev, zip: shippingDetails.zip }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, zip: '' }));
       }
       if (shippingDetails.country) {
         setShippingAddress((prev) => ({ ...prev, country: shippingDetails.country }));
+        validFieldCount++;
+      } else {
+        setShippingAddress((prev) => ({ ...prev, country: '' }));
       }
+      if (validFieldCount === 0) {
+        setMissingShipInfo(true);
+      } else {
+        setMissingShipInfo(false);
+      }
+    } else {
+      setShippingAddress({ ...initShippingAddress });
     }
   }, [shippingDetails]);
 
@@ -197,7 +229,18 @@ const OrderSummary = () => {
           <div className='order-details__right'>
             <h2>{`Total: ${toUSD.format(orderTotal)}`}</h2>
             <div className='order-details__shipping-info'>
-              {order.status === 'Pending' ? <h3>Ship to:</h3> : <h3>Shipped to:</h3>}
+              <div className='edit-shipping-details'>
+                {order.status === 'Pending' ? <h3>Ship to:</h3> : <h3>Shipped to:</h3>}
+                {order.status === 'Pending' &&
+                  <div>
+                    <EditAddressModal
+                      shippingAddress={shippingAddress}
+                      setShippingAddress={setShippingAddress}
+                      setMissingShipInfo={setMissingShipInfo}
+                    />
+                  </div>
+                }
+              </div>
               <div>
                 <div className='shipping-address__details-container'>
                   <div>
@@ -214,7 +257,13 @@ const OrderSummary = () => {
                     <div>{`${shippingAddress.state} ${shippingAddress.zip}`}</div>
                     <div>{shippingAddress.country}</div>
                   </div>
-                  {order.status === 'Pending' &&
+                  {missingShipInfo &&
+                    <h3 className='missing-shipping-info'
+                    >
+                      Please click on the <BsPencilSquare /> to add a shipping address!
+                    </h3>
+                  }
+                  {order.status === 'Pending' && !missingShipInfo &&
                     <div>
                       <button
                         className='order-details__submit-btn'
@@ -241,12 +290,6 @@ const OrderSummary = () => {
                     </div>
                   }
                 </div>
-                {order.status === 'Pending' &&
-                  <EditAddressModal
-                    shippingAddress={shippingAddress}
-                    setShippingAddress={setShippingAddress}
-                  />
-                }
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import uuid
 from flask import Blueprint, request, render_template, session
 from flask_login import login_required, current_user
 from app.models import db, Product, Cart_Item, Order, Product_Order
@@ -54,10 +55,12 @@ def get_user_cart():
     for item in cart_items_query:
         if item['title'] not in cart_item_dict:
             cart_item_dict[item['title']] = item
+            cart_item_dict[item['title']]['id'] = int(uuid.uuid4())
         else:
             cart_item_dict[item['title']]['quantity'] += item['quantity']
             cart_item_dict[item['title']]['price'] += item['price']
             cart_item_dict[item['title']]['basePrice'] = item['price']
+            cart_item_dict[item['title']]['id'] = int(uuid.uuid4())
 
     for key in cart_item_dict:
         cart_items.append(cart_item_dict[key])
@@ -183,6 +186,7 @@ def update_cart_item_qty(product_id):
         elif len(items_list) < new_quantity:
             for _ in range(new_quantity - len(items_list)):
                 session['user']['cart_items'].append({
+                    'id': int(uuid.uuid4()),
                     'quantity': 1,
                     'product_id': product_id
                 })
@@ -217,23 +221,34 @@ def add_to_cart(product_id):
     """
     Adds a product to a user's cart
     """
+    items_list = []
+
     try:
         # if user is logged in, simply add a
         # cart item with the associated user's id
-        db.session.add(Cart_Item(
-            quantity = 1,
-            product_id = product_id,
-            user_id = current_user.id
-        ))
-        db.session.commit()
+        for item in current_user.cart:
+            if item.product_id == product_id:
+                items_list.append(item)
+        if len(items_list) < 99:
+            db.session.add(Cart_Item(
+                quantity = 1,
+                product_id = product_id,
+                user_id = current_user.id
+            ))
+            db.session.commit()
     except AttributeError:
         # if a user is not logged in, create
         # server-side session for logged-out user
         if 'user' in session:
-            session['user']['cart_items'].append({
-                'quantity': 1,
-                'product_id': product_id
-            })
+            for item in session['user']['cart_items']:
+                if item['product_id'] == product_id:
+                    items_list.append(item)
+            if len(items_list) < 99:
+                session['user']['cart_items'].append({
+                    'id': int(uuid.uuid4()),
+                    'quantity': 1,
+                    'product_id': product_id
+                })
         else:
             session['user'] = {
                 'cart_items': [{

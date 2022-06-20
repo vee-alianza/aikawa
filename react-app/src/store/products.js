@@ -144,7 +144,7 @@ export const checkoutCart = (orderedItems) => async (dispatch) => {
             return { orderId: data.orderId, success: true };
         } else {
             console.error('Error checking out cart...');
-            return { success: false };
+            return { success: false, status: response.status };
         }
     } catch (err) {
         if (err instanceof SyntaxError) {

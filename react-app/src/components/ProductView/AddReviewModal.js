@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { AiFillRobot, AiOutlineRobot } from 'react-icons/ai';
 import { IoPlanetSharp, IoPlanetOutline } from 'react-icons/io5';
 import Rating from "react-rating";
 import { Modal } from "../../context/Modal";

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import { QuantityPicker } from 'react-qty-picker';
 import {
   getUserCartThunk,
@@ -18,7 +19,7 @@ const ShoppingCart = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const userCart = useSelector(state => state.products.userCart);
-  const [quantity, setQuantity] = useState({});
+  const user = useSelector(state => state.session.user);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -36,7 +37,6 @@ const ShoppingCart = () => {
         totalPrice += userCart[i].price;
       }
 
-      setQuantity(itemMap);
       setCartItems(userCart);
       setCartTotal(totalPrice);
     }
@@ -45,11 +45,6 @@ const ShoppingCart = () => {
   }, [dispatch, userCart]);
 
   const handleQtyChange = (value, productTitle, productId) => {
-    setQuantity(prev => {
-      const stateCopy = { ...prev };
-      stateCopy[productTitle] = value;
-      return stateCopy;
-    });
     setCartItems(prev => {
       return prev.map((item) => {
         if (item.title === productTitle) {
@@ -65,15 +60,13 @@ const ShoppingCart = () => {
 
     let totalPrice = 0;
 
-    for (const key in quantity) {
-      const item = cartItems.find((item) => item.title === key);
-
+    cartItems.forEach((item) => {
       if (item.title === productTitle) {
         totalPrice += item.basePrice * value;
       } else {
-        totalPrice += item.basePrice * quantity[key];
+        totalPrice += item.basePrice * item.quantity;
       }
-    }
+    });
 
     setCartTotal(totalPrice);
     clearTimeout(delayedUpdate[productId]);
@@ -106,9 +99,7 @@ const ShoppingCart = () => {
 
     if (success) {
       history.push(`/ordersummary/${orderId}`);
-    } else if (status === 405) {
-      // do logic to display modal for user to log in
-      // temporary modal
+    } else if (status === 405 || status === 401) {
       window.alert('please log in');
     }
   };
@@ -121,36 +112,46 @@ const ShoppingCart = () => {
             <h1>Shopping Cart</h1>
             {cartItems.map((item, idx) => (
               <div
-                key={`${item.id}+${idx}`}
+                key={item.id}
                 className='full-item__container'
               >
-                <div className='item__container'>
+                <div
+                  className='item__container'
+                  onClick={() => history.push(`/products/${item.productId}`)}
+                >
                   <img
                     src={item.image}
                     alt={item.title}
                   />
                   <div className='item-details__container'>
-                    <h3>
-                      {item.title}
-                    </h3>
                     <div>
-                      {item.description}
+                      <h3>
+                        {item.title}
+                      </h3>
+                      <div>
+                        {item.description}
+                      </div>
+                    </div>
+                    <div className='item-price__div'>
+                      {`$${item.price.toFixed(2)}`}
                     </div>
                   </div>
-                  <div className='item-price__div'>{`$${item.price.toFixed(2)}`}</div>
                 </div>
                 <div className='item-quantity__container'>
-                  <QuantityPicker
-                    min={1}
-                    max={99}
-                    value={quantity[item.title]}
-                    onChange={(value) => handleQtyChange(value, item.title, item.productId)}
-                  />
-                  <button
-                    onClick={() => removeItemInCart(item.productId)}
-                  >
-                    Remove item
-                  </button>
+                  <div>
+                    <QuantityPicker
+                      min={1}
+                      max={99}
+                      value={item.quantity}
+                      onChange={(value) => handleQtyChange(value, item.title, item.productId)}
+                    />
+                    <button
+                      onClick={() => removeItemInCart(item.productId)}
+                    >
+                      <FaRegTrashAlt />
+                    </button>
+                  </div>
+                  <div>** Limit quantity: 99 per customer.</div>
                 </div>
               </div>
             ))}
@@ -165,11 +166,17 @@ const ShoppingCart = () => {
               <h2>{`${toUSD.format(cartTotal)}`}</h2>
             </div>
             {cartItems.length > 0 &&
-              <button
-                onClick={placeOrder}
-              >
-                Proceed to checkout
-              </button>
+              <div>
+                <button
+                  onClick={placeOrder}
+                  disabled={user === null}
+                >
+                  Proceed to checkout
+                </button>
+                {user === null &&
+                  <div>** Please <span onClick={() => history.push('/login')}>log in</span> or <span onClick={() => history.push('/sign-up')}>sign up</span> to check out items!</div>
+                }
+              </div>
             }
           </div>
         </>

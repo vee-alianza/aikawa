@@ -7,17 +7,19 @@ const SplashPage = () => {
     return (
         <>
             <div className='splashpage__container'>
+                <button
+                    className='splash-login__btn'
+                    onClick={() => history.push('/login')}
+                >
+                    Log In
+                </button>
+                <button
+                    className='splash-signup__btn'
+                    onClick={() => history.push('/sign-up')}
+                >
+                    Sign Up
+                </button>
                 <div className='splash__image-display-1'>
-                    <button
-                        onClick={() => history.push('/login')}
-                    >
-                        Log In
-                    </button>
-                    <button
-                        onClick={() => history.push('/sign-up')}
-                    >
-                        Sign Up
-                    </button>
                     <div className='splash__title'>
                         <h1> Shop the AIKAWA Marketplace</h1>
                         <p>Explore the latest trends with affordable prices that's out of this world! </p>
@@ -40,6 +42,9 @@ const SplashPage = () => {
                             src='https://user-images.githubusercontent.com/92604480/174228927-2b36931d-d007-422a-a230-1f268baac63d.png'
                             alt='buildings'
                         />
+                    </div>
+                    <div className='splash__image-display-4'>
+                        <img src='https://user-images.githubusercontent.com/92604480/174525601-31f5e18f-e0ac-40a8-99d4-630c6c55e15a.png' alt='instructions' />
                     </div>
                     <Footer />
                 </div>

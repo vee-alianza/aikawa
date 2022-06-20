@@ -101,13 +101,17 @@ With this application, you can:
 * view previous orders
 
 ### Authentication
+![Log-In](https://user-images.githubusercontent.com/92604480/174603146-21d9ac06-44c8-4905-8ff6-1db3c955bb83.png)
+![Sign-Up](https://user-images.githubusercontent.com/92604480/174603222-38ab2e4e-987c-4950-bc1e-096815384ba7.png)
 ### Homepage
-
+![Hompage](https://user-images.githubusercontent.com/92604480/174603461-d3e92bf9-cc7a-4368-865c-08a6a2c20ad0.png)
 ### Products
+![Products](https://user-images.githubusercontent.com/92604480/174603546-cf971690-3729-49b3-8da0-2589c90f1359.png)
 
 ### Add to Cart
+![Shopping Cart](https://user-images.githubusercontent.com/92604480/174603701-01e44d1d-1b97-40b8-acb8-af3d02929531.png)
 ### Reviews
-
-### Order History
+![Reviews](https://user-images.githubusercontent.com/92604480/174603635-5105467d-c0b7-4003-ad16-4e1c22d3fc67.png).
+<!-- ### Order History -->
 
 [Back to top](#top)

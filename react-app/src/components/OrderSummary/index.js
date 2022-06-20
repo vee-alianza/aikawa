@@ -3,7 +3,7 @@ import { QuantityPicker } from 'react-qty-picker';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { getOrderDetailsThunk, updateOrderItemQty, removeOrderItem } from '../../store/orders';
+import { getOrderDetailsThunk, updateOrderItemQty, removeOrderItem, submitUserOrder, cancelUserOrder } from '../../store/orders';
 import EditAddressModal from './EditAddressModal';
 import './index.css';
 
@@ -132,7 +132,10 @@ const OrderSummary = () => {
       {order &&
         <div>
           <div className='order-details__left'>
-            <h2>{`Status: ${order.status}`}</h2>
+            <div>
+              <h2>{`Order number: ${order.id}`}</h2>
+              <h2>{`Status: ${order.status}`}</h2>
+            </div>
             <h3>Items:</h3>
             {orderItems.map((item) => (
               <div
@@ -152,21 +155,28 @@ const OrderSummary = () => {
                   />
                   <div>
                     <div>{`${toUSD.format(item.totalPrice)}`}</div>
-                    <div>
-                      <QuantityPicker
-                        className='order-item__qty-picker'
-                        min={1}
-                        max={99}
-                        value={item.quantity}
-                        onChange={(value) => handleQtyChange(value, item.title, item.id)}
-                      />
-                      <button
-                        className='order-item__delete-btn'
-                        onClick={() => handleRemoveOrderItem(item.id)}
-                      >
-                        <FaRegTrashAlt />
-                      </button>
-                    </div>
+                    {order.status === 'Pending' &&
+                      <div>
+                        <QuantityPicker
+                          className='order-item__qty-picker'
+                          min={1}
+                          max={99}
+                          value={item.quantity}
+                          onChange={(value) => handleQtyChange(value, item.title, item.id)}
+                        />
+                        <button
+                          className='order-item__delete-btn'
+                          onClick={() => handleRemoveOrderItem(item.id)}
+                        >
+                          <FaRegTrashAlt />
+                        </button>
+                      </div>
+                    }
+                    {order.status === 'Delivered' &&
+                      <div className='delivered-item__qty'>
+                        {`Quantity: ${item.quantity}x`}
+                      </div>
+                    }
                   </div>
                 </div>
                 <div
@@ -187,28 +197,56 @@ const OrderSummary = () => {
           <div className='order-details__right'>
             <h2>{`Total: ${toUSD.format(orderTotal)}`}</h2>
             <div className='order-details__shipping-info'>
-              <h3>Ship to:</h3>
+              {order.status === 'Pending' ? <h3>Ship to:</h3> : <h3>Shipped to:</h3>}
               <div>
-                <div>
-                  <div>{`${shippingAddress.firstName} ${shippingAddress.lastName}`}</div>
-                  {shippingAddress.address && shippingAddress.city &&
-                    <div>{`${shippingAddress.address}, ${shippingAddress.city}`}</div>
+                <div className='shipping-address__details-container'>
+                  <div>
+                    <div>{`${shippingAddress.firstName} ${shippingAddress.lastName}`}</div>
+                    {shippingAddress.address && shippingAddress.city &&
+                      <div>{`${shippingAddress.address}, ${shippingAddress.city}`}</div>
+                    }
+                    {shippingAddress.address && !shippingAddress.city &&
+                      <div>{`${shippingAddress.address}`}</div>
+                    }
+                    {!shippingAddress.address && shippingAddress.city &&
+                      <div>{`${shippingAddress.address}`}</div>
+                    }
+                    <div>{`${shippingAddress.state} ${shippingAddress.zip}`}</div>
+                    <div>{shippingAddress.country}</div>
+                  </div>
+                  {order.status === 'Pending' &&
+                    <div>
+                      <button
+                        className='order-details__submit-btn'
+                        onClick={async () => {
+                          const success = await dispatch(submitUserOrder(order.id));
+                          if (success) {
+                            history.push('/orderhistory');
+                          }
+                        }}
+                      >
+                        Submit order
+                      </button>
+                      <button
+                        className='order-details__cancel-btn'
+                        onClick={async () => {
+                          const success = await dispatch(cancelUserOrder(order.id));
+                          if (success) {
+                            history.push('/orderhistory');
+                          }
+                        }}
+                      >
+                        Cancel order
+                      </button>
+                    </div>
                   }
-                  {shippingAddress.address && !shippingAddress.city &&
-                    <div>{`${shippingAddress.address}`}</div>
-                  }
-                  {!shippingAddress.address && shippingAddress.city &&
-                    <div>{`${shippingAddress.address}`}</div>
-                  }
-                  <div>{`${shippingAddress.state} ${shippingAddress.zip}`}</div>
-                  <div>{shippingAddress.country}</div>
                 </div>
-                <EditAddressModal
-                  shippingAddress={shippingAddress}
-                  setShippingAddress={setShippingAddress}
-                />
-                <div>
-                </div>
+                {order.status === 'Pending' &&
+                  <EditAddressModal
+                    shippingAddress={shippingAddress}
+                    setShippingAddress={setShippingAddress}
+                  />
+                }
               </div>
             </div>
           </div>

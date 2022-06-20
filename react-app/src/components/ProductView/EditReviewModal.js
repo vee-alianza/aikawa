@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiPencilAlt } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../../context/Modal';
@@ -13,6 +13,14 @@ const EditReviewModal = ({ review, setReviews }) => {
   const [content, setContent] = useState(review.content);
   const [rating, setRating] = useState(review.rating);
   const [errors, setErrors] = useState({ title: '', content: '', rating: '' });
+
+  useEffect(() => {
+    if (!showModal) {
+      setTitle(review.title);
+      setContent(review.content);
+      setRating(review.rating);
+    }
+  }, [showModal, review.title, review.content, review.rating]);
 
   const handleEdit = async (reviewId) => {
     const data = await dispatch(updateUserReview({

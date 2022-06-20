@@ -26,6 +26,14 @@ const AddReviewModal = (props) => {
     }
   }, [setIsReviewed, hasUserReview]);
 
+  useEffect(() => {
+    if (!showModal) {
+      setTitle('');
+      setContent('');
+      setRating(1);
+    }
+  }, [showModal]);
+
   const handleSubmit = async () => {
     const data = await dispatch(addUserReview({ productId, title, content, rating }));
     if (data.review) {

@@ -145,7 +145,7 @@ const OrderSummary = () => {
       if (orderItems.length === 1) {
         const success = await dispatch(cancelUserOrder(order.id));
         if (success) {
-          history.push('/products');
+          history.push('/orderhistory');
         }
       }
 

@@ -77,6 +77,11 @@ const SignUpForm = () => {
   return (
     <>
       <div className='sign-up__wrapper'>
+        <div className='sign-up__logo'>
+          <Link to='/'>
+            <img src='https://user-images.githubusercontent.com/92604480/176834870-b03e1129-267b-45ef-b474-ac67a6dc5df5.png' alt='' />
+          </Link>
+        </div>
         <div className='sign-up__container'>
           <h2>Sign Up</h2>
           <form onSubmit={onSignUp} className='auth__form sign-up'>

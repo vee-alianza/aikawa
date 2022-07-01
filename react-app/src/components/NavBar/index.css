@@ -1,5 +1,6 @@
 .navbar__container {
     text-align: center;
+    min-width: 54rem;
 }
 
 .navbar__container.lift {
@@ -10,19 +11,14 @@ p.lift {
     color: white;
 }
 
-.navbar__container img {
-    width: 10rem;
+.navbar__logo.main__logo {
+    height: 10rem;
 }
 
-.navbar__logo {
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-}
-
-.navbar__logo p {
-    font-size: 35px;
-    font-weight: 600;
+.navbar__container .navbar__logo.splash__page>img {
+    margin-top: -2rem;
+    margin-left: -32rem;
+    width: 25rem;
 }
 
 .navbar__left {
@@ -40,6 +36,7 @@ p.lift {
 .navbar__navigation {
     list-style-type: none;
     margin: 0;
+    margin-bottom: 12rem;
     padding: 0;
     overflow: hidden;
     border: 1px solid #e7e7e7;

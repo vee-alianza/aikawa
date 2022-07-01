@@ -1,3 +1,8 @@
+.login__logo,
+.sign-up__logo {
+    margin: -2rem;
+}
+
 .login__wrapper,
 .sign-up__wrapper {
     margin: 0;

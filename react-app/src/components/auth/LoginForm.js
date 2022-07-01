@@ -62,6 +62,11 @@ const LoginForm = () => {
   return (
     <>
       <div className='login__wrapper'>
+        <div className='login__logo'>
+          <Link to='/'>
+            <img src='https://user-images.githubusercontent.com/92604480/176834870-b03e1129-267b-45ef-b474-ac67a6dc5df5.png' alt='' />
+          </Link>
+        </div>
         <div className={`login__container`}>
           <h2>Login</h2>
           <form onSubmit={onLogin} className='auth__form login'>
@@ -131,6 +136,7 @@ const LoginForm = () => {
             </Link>
           </form>
         </div >
+
       </div>
     </>
   );

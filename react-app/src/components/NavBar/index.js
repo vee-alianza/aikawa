@@ -14,13 +14,19 @@ const NavBar = () => {
   const [activeClass, setActiveClass] = useState({ home: 'active', products: '', orders: '' });
   const [dropdown, setDropdown] = useState(false);
   const [dispNavbar, setDispNavbar] = useState(true);
+  const [isLoginSignup, setIsLoginSignup] = useState(false);
   const [logoClass, setLogoClass] = useState('');
 
   useEffect(() => {
     if (currentLocation.pathname === '/') {
       setDispNavbar(false);
+      setIsLoginSignup(false);
       setLogoClass('lift');
+    } else if (currentLocation.pathname === '/login' || currentLocation.pathname === '/sign-up') {
+      setDispNavbar(false);
+      setIsLoginSignup(true);
     } else {
+      setIsLoginSignup(false);
       if (currentLocation.pathname.includes('home')) {
         setActiveClass({ home: 'active', products: '' });
       } else if (currentLocation.pathname.includes('products')) {
@@ -64,81 +70,89 @@ const NavBar = () => {
   };
 
   return (
-    <nav className={`navbar__container ${logoClass}`}>
-      <div className='navbar__logo'>
-        <img src='https://user-images.githubusercontent.com/92604480/174006897-c3e8cf74-4c4a-4ed9-8080-039238d4bf18.png' alt='' />
-        <p className={`${logoClass}`}>
-          AIKAWA
-        </p>
-      </div>
-      {dispNavbar &&
-        <ul className='navbar__navigation'>
-          <li>
-            <button
-              id='navbar-home'
-              className={activeClass.home}
-              onClick={handleNavigate}
-            >
-              Home
-            </button>
-          </li>
-          <li>
-            <button
-              id='navbar-products'
-              className={activeClass.products}
-              onClick={handleNavigate}
-            >
-              Products
-            </button>
-          </li>
-          {user &&
-            <li>
-              <button
-                id='navbar-orders'
-                className={activeClass.orders}
-                onClick={handleNavigate}
-              >
-                Orders
-              </button>
-            </li>
+    <>
+      {!isLoginSignup &&
+        <nav className={`navbar__container ${logoClass}`}>
+          {!dispNavbar &&
+            <div className='navbar__logo splash__page'>
+              <img src='https://user-images.githubusercontent.com/92604480/176759065-3a3c62d0-c240-4721-ae19-9da798df7e60.png' alt='' />
+            </div>
           }
-          <li style={{ float: 'right' }}>
-            <button
-              ref={dropdownContainer}
-              onFocus={() => setDropdown(true)}
-              onBlur={() => setDropdown(false)}
-            >
-              <BsFillPersonFill />
-              {dropdown &&
-                <div className='profile-dropdown__container'>
-                  <div
-                    onClick={() => {
-                      history.push('/shoppingcart');
-                      dropdownContainer.current.blur();
-                    }}
+          {dispNavbar &&
+            <>
+              <div className='navbar__logo main__logo'>
+                <img src='https://user-images.githubusercontent.com/92604480/176781030-e3dad972-28db-4cd0-87ac-1fef591d5906.png' alt='' />
+              </div>
+              <ul className='navbar__navigation'>
+                <li>
+                  <button
+                    id='navbar-home'
+                    className={activeClass.home}
+                    onClick={handleNavigate}
                   >
-                    Cart
-                  </div>
-                  {user &&
-                    <div onClick={onLogout}>
-                      Log out
-                    </div>
-                  }
-                </div>
-              }
-            </button>
-          </li>
-          <li style={{ float: 'right' }}>
-            <button
-              id='navbar-shopping-cart'
-              onClick={handleNavigate}
-            >
-              <BsCart2 />
-            </button>
-          </li>
-        </ul>
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button
+                    id='navbar-products'
+                    className={activeClass.products}
+                    onClick={handleNavigate}
+                  >
+                    Products
+                  </button>
+                </li>
+                {user &&
+                  <li>
+                    <button
+                      id='navbar-orders'
+                      className={activeClass.orders}
+                      onClick={handleNavigate}
+                    >
+                      Orders
+                    </button>
+                  </li>
+                }
+                <li style={{ float: 'right' }}>
+                  <button
+                    ref={dropdownContainer}
+                    onFocus={() => setDropdown(true)}
+                    onBlur={() => setDropdown(false)}
+                  >
+                    <BsFillPersonFill />
+                    {dropdown &&
+                      <div className='profile-dropdown__container'>
+                        <div
+                          onClick={() => {
+                            history.push('/shoppingcart');
+                            dropdownContainer.current.blur();
+                          }}
+                        >
+                          Cart
+                        </div>
+                        {user &&
+                          <div onClick={onLogout}>
+                            Log out
+                          </div>
+                        }
+                      </div>
+                    }
+                  </button>
+                </li>
+                <li style={{ float: 'right' }}>
+                  <button
+                    id='navbar-shopping-cart'
+                    onClick={handleNavigate}
+                  >
+                    <BsCart2 />
+                  </button>
+                </li>
+              </ul>
+            </>
+          }
+        </nav >
       }
-    </nav >
+    </>
   );
 }
 

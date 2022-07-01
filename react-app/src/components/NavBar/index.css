@@ -10,9 +10,6 @@ p.lift {
     color: white;
 }
 
-.navbar__container img {
-    width: 10rem;
-}
 
 .navbar__logo {
     display: flex;
@@ -38,12 +35,20 @@ p.lift {
 }
 
 .navbar__navigation {
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* justify-content: space-around;
+    align-items: center; */
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 2rem;
     overflow: hidden;
     border: 1px solid #e7e7e7;
     background-color: #f3f3f3;
+}
+
+.navbar__navigation img {
+    width: 15rem;
 }
 
 .navbar__navigation button {

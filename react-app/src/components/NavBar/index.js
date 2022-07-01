@@ -65,12 +65,12 @@ const NavBar = () => {
 
   return (
     <nav className={`navbar__container ${logoClass}`}>
-      <div className='navbar__logo'>
-        <img src='https://user-images.githubusercontent.com/92604480/174006897-c3e8cf74-4c4a-4ed9-8080-039238d4bf18.png' alt='' />
+      {/* <div className='navbar__logo'>
+      <img src='https://user-images.githubusercontent.com/92604480/176781030-e3dad972-28db-4cd0-87ac-1fef591d5906.png' alt='' />
         <p className={`${logoClass}`}>
-          AIKAWA
+
         </p>
-      </div>
+      </div> */}
       {dispNavbar &&
         <ul className='navbar__navigation'>
           <li>
@@ -102,6 +102,7 @@ const NavBar = () => {
               </button>
             </li>
           }
+          <img src='https://user-images.githubusercontent.com/92604480/176781030-e3dad972-28db-4cd0-87ac-1fef591d5906.png' alt='' />
           <li style={{ float: 'right' }}>
             <button
               ref={dropdownContainer}

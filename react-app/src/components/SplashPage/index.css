@@ -15,8 +15,15 @@
     flex-direction: column;
 }
 
+.splashpage__top img {
+    width: 28rem;
+    margin: -3rem;
+}
+
+
 .splash-btn__container {
-    margin-top: 8rem;
+    /* margin-top: 8rem; */
+    margin-top: -10rem;
     margin-right: 10rem;
     align-self: flex-end;
 }

@@ -7,6 +7,7 @@ const SplashPage = () => {
     return (
         <div className='splashpage__container'>
             <div className='splashpage__top'>
+                <img src='https://user-images.githubusercontent.com/92604480/176759065-3a3c62d0-c240-4721-ae19-9da798df7e60.png' alt='' />
                 <div className='splash-btn__container'>
                     <button
                         className='splash-login__btn'

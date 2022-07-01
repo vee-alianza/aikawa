@@ -1,5 +1,8 @@
+from faker import Faker
 from app.models import db, Product
 import json
+
+fake = Faker()
 
 def seed_products():
     with open('./app/seeds/products/bench-seating.json') as file:
@@ -18,44 +21,44 @@ def seed_products():
     for product in bench_seating:
         db.session.add(Product(
             title = product['product'],
-            price = 123.45,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
     for product in coffee_tables:
         db.session.add(Product(
             title = product['product'],
-            price = 678.90,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
     for product in dining_seating:
         db.session.add(Product(
             title = product['product'],
-            price = 123.45,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
     for product in lounge_seating:
         db.session.add(Product(
             title = product['product'],
-            price = 123.45,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
     for product in ottoman_seating:
         db.session.add(Product(
             title = product['product'],
-            price = 123.45,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
     for product in sculptural_chairs:
         db.session.add(Product(
             title = product['product'],
-            price = 123.45,
-            description = 'product description',
-            quantity = 5,
+            price = f"{fake.random_int(min=20, max=1000)}.{fake.random_int(min=0, max=99)}",
+            description = fake.paragraph(nb_sentences=4),
+            quantity = 999999,
         ))
 
 

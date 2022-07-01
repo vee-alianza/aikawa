@@ -1,7 +1,23 @@
+import { getUserShippingDetails } from "./session";
+
+const GET_ORDER_DETAILS = 'order/GET_ORDER_DETAILS';
+const GET_ORDER_HISTORY = 'order/GET_ORDER_HISTORY';
 const CREATE_ORDER = "order/CREATE_ORDER";
-const READ_ORDER = 'order/READ_ORDER';
-const UPDATE_ORDER = 'order/UPDATE_ORDER';
 const REMOVE_ORDER = 'order/REMOVE_ORDER';
+
+const getOrderDetails = (order) => {
+    return {
+        type: GET_ORDER_DETAILS,
+        payload: order
+    }
+};
+
+const getOrderHistory = (orders) => {
+    return {
+        type: GET_ORDER_HISTORY,
+        payload: orders
+    }
+};
 
 const createOrder = (order) => {
     return {
@@ -10,29 +26,77 @@ const createOrder = (order) => {
     };
 };
 
-const readOrder = (order) => {
-    return {
-        type: READ_ORDER,
-        payload: order
-    };
+
+export const getOrderDetailsThunk = (id) => async (dispatch) => {
+    const response = await fetch(`/api/orders/${id}`);
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getOrderDetails(data.order));
+        dispatch(getUserShippingDetails(data.shippingDetails));
+    } else {
+        console.error('Error fetching order details...');
+    }
 };
 
-const updateOrder = (order) => {
-    return {
-        type: UPDATE_ORDER,
-        payload: order
-    };
+export const getOrderHistoryThunk = () => async (dispatch) => {
+    const response = await fetch('/api/orders/');
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getOrderHistory(data.orders));
+    } else {
+        console.error('Error fetching order history...');
+    }
 };
 
-const removeOrder = (id) => {
-    return {
-        type: REMOVE_ORDER,
-        payload: id
-    };
+export const updateShippingAddress = (shippingAddress) => async (dispatch) => {
+    const response = await fetch('/api/orders/address', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ shippingAddress })
+    });
+    const data = await response.json();
+    return data;
 };
 
+export const submitUserOrder = (orderId) => async (dispatch) => {
+    const response = await fetch(`/api/orders/${orderId}`, {
+        method: 'PUT'
+    });
+    const data = await response.json();
+    return data.success;
+};
 
-export const postOrder = (order) => async dispatch => {
+export const cancelUserOrder = (orderId) => async (dispatch) => {
+    const response = await fetch(`/api/orders/cancel/${orderId}`, {
+        method: 'DELETE'
+    });
+    const data = await response.json();
+    return data.success;
+};
+
+export const updateOrderItemQty = (orderItemId, quantity) => async (dispatch) => {
+    const response = await fetch(`/api/orders/${orderItemId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity })
+    });
+    const data = await response.json();
+    return data.success;
+};
+
+export const removeOrderItem = (orderItemId) => async (dispatch) => {
+    const response = await fetch(`/api/orders/${orderItemId}`, {
+        method: 'DELETE'
+    });
+    const data = await response.json();
+    return data.success;
+};
+
+export const postOrder = (order) => async (dispatch) => {
     const response = await fetch(`/api/orders`, {
         method: 'POST',
         body: JSON.stringify(order)
@@ -42,13 +106,6 @@ export const postOrder = (order) => async dispatch => {
     return (response);
 };
 
-export const viewOrder = (id) => async dispatch => {
-    const response = await fetch(`/api/orders${id}`);
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(readOrder(data.order))
-    }
-};
 
 const initialState = {
     currentOrder: null,
@@ -63,23 +120,13 @@ const orderReducer = (state = initialState, action) => {
             newState = Object.assign(action.order, newState);
             return newState
         }
-        case READ_ORDER:
+        case GET_ORDER_DETAILS:
             newState = Object.assign({}, state);
             newState.currentOrder = action.payload
             return newState;
-        case UPDATE_ORDER:
+        case GET_ORDER_HISTORY:
             newState = Object.assign({}, state);
-            if (state.allOrders) {
-                newState.allOrders = state.allOrders.map((order) => {
-                    if (order.id === action.payload.id) {
-                        return action.payload;
-                    } else {
-                        return order;
-                    }
-                });
-            } if (state.currentOrder) {
-                newState.currentOrder = action.payload;
-            }
+            newState.allOrders = action.payload;
             return newState;
         case REMOVE_ORDER:
             newState = Object.assign({}, state);

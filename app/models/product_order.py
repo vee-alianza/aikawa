@@ -17,8 +17,11 @@ class Product_Order(db.Model):
         return{
             'id': self.id,
             'quantity': self.quantity,
-            'product_id': self.product_id,
-            'order_id': self.order_id
+            'productId': self.product_id,
+            'orderId': self.order_id,
+            'title': self.product.to_dict()['title'],
+            'description': self.product.to_dict()['description'],
+            'image': self.product.to_dict()['images'][0]['url'],
+            'basePrice': self.product.to_dict()['price'],
+            'totalPrice': float(self.quantity) * float(self.product.to_dict()['price'])
         }
-
-# product_order.product

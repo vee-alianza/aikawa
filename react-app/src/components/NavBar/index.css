@@ -70,6 +70,32 @@ p.lift {
     background-color: purple;
 }
 
+.number-of-items {
+    position: absolute;
+    margin-left: -3rem;
+    margin-top: -0.5rem;
+    border-radius: 50%;
+    background-color: white;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    padding: 0.5rem;
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number-of-items.over-100 {
+    margin-left: -3.8rem;
+}
+
+.number-of-items.below-10 {
+    margin-left: -3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .profile-dropdown__container {
     display: flex;
     flex-direction: column;

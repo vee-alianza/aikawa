@@ -16,6 +16,7 @@ const NavBar = () => {
   const [dispNavbar, setDispNavbar] = useState(true);
   const [isLoginSignup, setIsLoginSignup] = useState(false);
   const [logoClass, setLogoClass] = useState('');
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (currentLocation.pathname === '/') {
@@ -68,6 +69,9 @@ const NavBar = () => {
       history.push('/orderhistory');
     }
   };
+
+
+
 
   return (
     <>
@@ -144,6 +148,9 @@ const NavBar = () => {
                     id='navbar-shopping-cart'
                     onClick={handleNavigate}
                   >
+                    <div className={`number-of-items ${count >= 100 ? 'over-100' : count < 10 ? 'below-10' : ''}`}>
+                      <span>{count}</span>
+                    </div>
                     <BsCart2 />
                   </button>
                 </li>

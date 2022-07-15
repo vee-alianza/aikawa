@@ -7,6 +7,9 @@ const REMOVE_CART_PRODUCT = 'products/REMOVE_CART_PRODUCT';
 const USER_ORDER_PLACED = 'products/USER_ORDER_PLACED';
 const ADD_REVIEW_RATING = 'products/ADD_REVIEW_RATING';
 const GET_USER_PRODUCT_REVIEW = 'products/GET_USER_PRODUCT_REVIEW';
+const GET_CART_ITEM_COUNT = 'products/GET_CART_ITEM_COUNT';
+const ADD_CART_ITEM_COUNT = 'products/ADD_CART_ITEM_COUNT';
+const SET_CART_ITEM_COUNT = 'products/SET_CART_ITEM_COUNT';
 
 
 const getProducts = (products) => {
@@ -29,6 +32,14 @@ const getUserCart = (cartItems) => {
         payload: cartItems
     }
 };
+
+const getCartItemCount = (cartItems) => {
+    return {
+        type: GET_CART_ITEM_COUNT,
+        payload: cartItems
+    }
+};
+
 
 const removeCartProduct = (productId) => {
     return {
@@ -57,7 +68,19 @@ export const getUserProductReview = (hasReviewed) => {
     };
 };
 
+export const addCartItemCount = (quantity) => {
+    return {
+        type: ADD_CART_ITEM_COUNT,
+        payload: quantity
+    }
+};
 
+export const setCartItemCount = (quantity) => {
+    return {
+        type: SET_CART_ITEM_COUNT,
+        payload: quantity
+    }
+};
 
 export const getProductsThunk = (lastProductId) => async (dispatch) => {
     const response = await fetch(`/api/products/?lastProductId=${lastProductId}`);
@@ -91,6 +114,16 @@ export const getUserCartThunk = () => async (dispatch) => {
     }
 };
 
+export const getCartItemCountThunk = () => async (dispatch) => {
+    const response = await fetch('/api/products/cart/count');
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getCartItemCount(data.cartItemCount));
+    } else {
+        console.error('Error fetching total of items in cart');
+    }
+};
+
 export const removeCartProductThunk = (productId) => async (dispatch) => {
     const response = await fetch(`/api/products/cart/${productId}`, {
         method: 'DELETE'
@@ -98,6 +131,7 @@ export const removeCartProductThunk = (productId) => async (dispatch) => {
     const data = await response.json();
     if (data.success) {
         dispatch(removeCartProduct(productId));
+        await dispatch(getCartItemCountThunk());
         return true;
     } else {
         console.error('Error removing product from cart...');
@@ -199,7 +233,8 @@ const initialState = {
     allProducts: null,
     currentProduct: null,
     userCart: null,
-    hasUserReview: null
+    hasUserReview: null,
+    cartItemCount: 0,
 };
 
 const productReducer = (state = initialState, action) => {
@@ -220,6 +255,18 @@ const productReducer = (state = initialState, action) => {
         case GET_USER_CART:
             newState = { ...state };
             newState.userCart = action.payload;
+            return newState;
+        case GET_CART_ITEM_COUNT:
+            newState = { ...state };
+            newState.cartItemCount = action.payload;
+            return newState;
+        case ADD_CART_ITEM_COUNT:
+            newState = { ...state };
+            newState.cartItemCount += action.payload;
+            return newState;
+        case SET_CART_ITEM_COUNT:
+            newState = { ...state };
+            newState.cartItemCount = action.payload;
             return newState;
         case GET_USER_PRODUCT_REVIEW:
             newState = { ...state };

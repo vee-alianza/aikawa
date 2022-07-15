@@ -7,7 +7,8 @@ import {
   getUserCartThunk,
   removeCartProductThunk,
   checkoutCart,
-  updateCartItemQty
+  updateCartItemQty,
+  setCartItemCount
 } from '../../store/products';
 import './index.css';
 
@@ -45,18 +46,25 @@ const ShoppingCart = () => {
   }, [dispatch, userCart]);
 
   const handleQtyChange = (value, productTitle, productId) => {
+    value = Number(value);
     setCartItems(prev => {
-      return prev.map((item) => {
+      let quantity = 0;
+      const newCartItems = prev.map((item) => {
         if (item.title === productTitle) {
           const itemCopy = { ...item };
           itemCopy.price = itemCopy.basePrice * value;
           itemCopy.quantity = value;
+          quantity += itemCopy.quantity;
           return itemCopy;
         } else {
+          quantity += item.quantity;
           return item;
         }
       });
+      dispatch(setCartItemCount(quantity));
+      return newCartItems;
     });
+
 
     let totalPrice = 0;
 
@@ -181,7 +189,7 @@ const ShoppingCart = () => {
           </div>
         </>
       }
-    </div>
+    </div >
   );
 };
 

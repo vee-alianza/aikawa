@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { logout } from '../../store/session';
 import { BsCart2, BsFillPersonFill } from 'react-icons/bs';
+import { getCartItemCountThunk } from '../../store/products';
 import './index.css'
 
 const NavBar = () => {
@@ -11,12 +12,20 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const dropdownContainer = useRef();
   const user = useSelector(state => state.session.user);
+  const cartItemCount = useSelector(state => state.products.cartItemCount);
   const [activeClass, setActiveClass] = useState({ home: 'active', products: '', orders: '' });
   const [dropdown, setDropdown] = useState(false);
   const [dispNavbar, setDispNavbar] = useState(true);
   const [isLoginSignup, setIsLoginSignup] = useState(false);
   const [logoClass, setLogoClass] = useState('');
-  const [count, setCount] = useState(0);
+  const [hasItemCount, setHasItemCount] = useState(false);
+
+  useEffect(() => {
+    if (!hasItemCount) {
+      dispatch(getCartItemCountThunk());
+      setHasItemCount(true);
+    }
+  }, [hasItemCount, dispatch]);
 
   useEffect(() => {
     if (currentLocation.pathname === '/') {
@@ -148,8 +157,8 @@ const NavBar = () => {
                     id='navbar-shopping-cart'
                     onClick={handleNavigate}
                   >
-                    <div className={`number-of-items ${count >= 100 ? 'over-100' : count < 10 ? 'below-10' : ''}`}>
-                      <span>{count}</span>
+                    <div className={`number-of-items ${cartItemCount >= 100 ? 'over-100' : cartItemCount < 10 ? 'below-10' : ''}`}>
+                      <span>{cartItemCount}</span>
                     </div>
                     <BsCart2 />
                   </button>

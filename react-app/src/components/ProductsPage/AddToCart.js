@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../store/products';
+import { addToCart, addCartItemCount } from '../../store/products';
 import './index.css';
 
 const AddToCart = ({ product }) => {
@@ -16,6 +16,7 @@ const AddToCart = ({ product }) => {
             setTimeout(() => {
                 setAddMsg('Add to cart');
             }, 2000);
+            dispatch(addCartItemCount(1));
         } else {
             setAddMsg('Error adding to cart...');
             setTimeout(() => {

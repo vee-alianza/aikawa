@@ -147,6 +147,21 @@ def checkout_user_cart():
 
     return {'success': True, 'orderId': new_order.id}
 
+@product_routes.route('/cart/count')
+def cart_item_count():
+    """
+    Gets the number of items in the cart
+    """
+    count = 0
+    try:
+        for item in current_user.cart:
+            count += item.quantity
+    except AttributeError:
+        for item in session['user']['cart_items']:
+            count += item['quantity']
+
+    return {'cartItemCount': count}
+
 
 @product_routes.route('/cart/<int:product_id>', methods=['PATCH'])
 def update_cart_item_qty(product_id):
